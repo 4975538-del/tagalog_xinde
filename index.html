@@ -1,0 +1,2730 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tagalog Master - 学习菲律宾语</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #58CC02; --primary-dark: #46a302; --secondary: #1CB0F6;
+            --accent: #FF9600; --warning: #FF4B4B; --bg: #F7F7F7;
+            --text: #3C3C3C; --card: #FFFFFF; --border: #E5E5E5;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08); --radius: 16px; --radius-sm: 12px;
+        }
+        body { font-family: 'Nunito', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .app { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg); position: relative; }
+        .page { display: none; padding: 20px; min-height: 100vh; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .login-container { display: none; padding: 0; min-height: 100vh; }
+        .login-container.active { display: flex; }
+        .login-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; width: 100%; }
+        .logo { font-size: 48px; margin-bottom: 10px; } .logo-text { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 40px; }
+        .auth-card { background: var(--card); border-radius: var(--radius); padding: 30px; width: 100%; max-width: 360px; box-shadow: var(--shadow); }
+        .auth-title { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #777; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 16px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.15s ease; }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+        .auth-switch { text-align: center; margin-top: 20px; font-size: 14px; color: #777; }
+        .auth-switch a { color: var(--secondary); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .error-msg { color: var(--warning); font-size: 14px; margin-top: 8px; text-align: center; display: none; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .back-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--card); border: none; font-size: 20px; cursor: pointer; box-shadow: var(--shadow); }
+        .header-title { font-size: 20px; font-weight: 700; }
+        .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; cursor: pointer; }
+        .stats-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
+        .greeting { font-size: 14px; color: #777; margin-bottom: 8px; }
+        .streak-info { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .streak-icon { font-size: 32px; }
+        .streak-count { font-size: 28px; font-weight: 800; }
+        .streak-label { font-size: 14px; color: #777; }
+        .xp-bar-container { background: #E5E5E5; border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 8px; }
+        .xp-bar { height: 100%; background: linear-gradient(90deg, var(--primary), #7BE400); border-radius: 10px; transition: width 0.5s ease; }
+        .xp-text { font-size: 12px; color: #777; }
+        .daily-goal { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .goal-item { text-align: center; }
+        .goal-value { font-size: 24px; font-weight: 700; color: var(--primary); }
+        .goal-label { font-size: 12px; color: #777; }
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .skill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .skill-card { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .skill-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+        .skill-card:active { transform: scale(0.98); }
+        .skill-icon { font-size: 32px; margin-bottom: 8px; }
+        .skill-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .skill-progress { font-size: 12px; color: #777; }
+        .skill-card.noun { border-left: 4px solid #FF6B6B; }
+        .skill-card.verb { border-left: 4px solid #4ECDC4; }
+        .skill-card.adj { border-left: 4px solid #45B7D1; }
+        .skill-card.adv { border-left: 4px solid #96CEB4; }
+        .skill-card.particle { border-left: 4px solid #FFEAA7; }
+        .skill-card.pronoun { border-left: 4px solid #DDA0DD; }
+        .skill-card.number { border-left: 4px solid #98D8C8; }
+        .practice-btn { background: var(--primary); color: white; border: none; border-radius: var(--radius); padding: 20px; width: 100%; font-size: 18px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 0 #46a302; transition: all 0.15s ease; }
+        .practice-btn:active { transform: translateY(4px); box-shadow: none; }
+        .extra-practice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+        .extra-practice-btn { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s; }
+        .extra-practice-btn:active { transform: scale(0.95); }
+        .extra-practice-btn:hover { border-color: var(--primary); }
+        .extra-practice-icon { font-size: 28px; }
+        .extra-practice-name { font-size: 14px; font-weight: 700; color: var(--text); }
+        .quiz-example { background: #F0F9FF; border-radius: var(--radius-sm); padding: 20px; margin: 16px 0; text-align: center; font-size: 18px; line-height: 1.6; border: 2px solid #E0F2FE; }
+        .quiz-example .blank { display: inline-block; min-width: 80px; border-bottom: 3px solid var(--secondary); color: var(--secondary); font-weight: 700; }
+        .quiz-blank-input { width: 100%; padding: 14px 16px; border: 2px solid var(--secondary); border-radius: var(--radius-sm); font-size: 18px; text-align: center; font-family: inherit; margin-top: 16px; }
+        .quiz-blank-input:focus { outline: none; border-color: var(--primary); }
+        .quiz-translation-hint { font-size: 16px; color: #777; text-align: center; margin-bottom: 8px; }
+        .type-input { width: 100%; padding: 14px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 18px; font-family: inherit; margin-top: 16px; }
+        .type-input:focus { outline: none; border-color: var(--primary); }
+        .check-btn { margin-top: 16px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: #777; font-size: 12px; font-family: inherit; transition: color 0.2s; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item svg { width: 24px; height: 24px; }
+        .quiz-container { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+        .quiz-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #E5E5E5; border-radius: 4px; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: var(--primary); transition: width 0.3s ease; }
+        .quiz-count { font-size: 14px; color: #777; font-weight: 600; }
+        .flashcard { perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
+        .flashcard-inner { position: relative; width: 100%; min-height: 360px; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; min-height: 360px; backface-visibility: hidden; background: var(--card); border-radius: var(--radius); padding: 30px 24px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .flashcard-back { transform: rotateY(180deg); align-items: stretch; text-align: left; }
+        .card-word { font-size: 42px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+        .card-pos { font-size: 14px; color: #777; margin-bottom: 20px; }
+        .card-tap-hint { font-size: 12px; color: #AAA; margin-top: auto; }
+        .card-meaning { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .card-example { font-size: 16px; color: var(--primary); margin-bottom: 8px; font-style: italic; line-height: 1.5; }
+        .card-example-trans { font-size: 14px; color: #666; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .card-usage { font-size: 14px; color: #555; line-height: 1.6; background: #F8F9FA; padding: 12px; border-radius: 8px; }
+        .card-usage-title { font-weight: 700; color: var(--text); margin-bottom: 6px; }
+        .card-full-display { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; text-align: center; }
+        .card-full-word { font-size: 42px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+        .card-full-pos { font-size: 14px; color: #777; margin-bottom: 16px; }
+        .card-full-meaning { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .card-full-example { font-size: 18px; color: var(--primary); margin-bottom: 8px; font-style: italic; line-height: 1.5; }
+        .card-full-example-trans { font-size: 15px; color: #666; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .card-full-usage { font-size: 14px; color: #555; line-height: 1.6; background: #F8F9FA; padding: 12px; border-radius: 8px; text-align: left; }
+        .card-full-usage-title { font-weight: 700; color: var(--text); margin-bottom: 6px; }
+        .card-actions { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+        .card-btn { flex: 1; padding: 14px; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .card-btn-prev { background: #E5E5E5; color: #555; }
+        .card-btn-prev:hover { background: #D0D0D0; }
+        .card-btn-next { background: var(--primary); color: white; }
+        .card-btn-next:hover { background: var(--primary-dark); }
+        .card-nav { text-align: center; }
+        .header-btn { background: none; border: none; font-size: 24px; cursor: pointer; padding: 4px 8px; }
+        .quiz-question { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 12px; line-height: 1.4; }
+        .quiz-hint { font-size: 14px; color: #777; text-align: center; margin-bottom: 20px; }
+        .pos-tag { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+        .pos-noun { background: #FF6B6B; color: white; } .pos-verb { background: #4ECDC4; color: white; } .pos-adj { background: #45B7D1; color: white; } .pos-adv { background: #96CEB4; color: white; } .pos-particle { background: #FFEAA7; color: #333; } .pos-pronoun { background: #DDA0DD; color: white; } .pos-number { background: #98D8C8; color: #333; } .pos-greeting { background: #FF9F43; color: white; } .pos-phrase { background: #A55EEA; color: white; } .pos-expression { background: #26DE81; color: white; }
+        .quiz-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .quiz-option { padding: 16px; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .quiz-option:active { transform: scale(0.95); }
+        .quiz-option.correct { background: #D4EDDA; border-color: var(--primary); animation: pulse 0.3s ease; }
+        .quiz-option.wrong { background: #F8D7DA; border-color: var(--warning); animation: shake 0.3s ease; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .quiz-result { text-align: center; padding: 40px 20px; }
+        .result-icon { font-size: 64px; margin-bottom: 16px; } .result-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; } .result-stats { font-size: 16px; color: #777; margin-bottom: 24px; }
+        .result-xp { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--primary), #7BE400); color: white; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 18px; margin-bottom: 24px; }
+        .search-bar { display: flex; align-items: center; background: var(--card); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
+        .search-bar input { flex: 1; border: none; background: none; font-size: 16px; font-family: inherit; outline: none; }
+        .vocab-filters, .scenario-filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; -webkit-overflow-scrolling: touch; }
+        .vocab-filter, .scenario-filter { padding: 8px 16px; background: var(--card); border: 2px solid var(--border); border-radius: 20px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .vocab-filter.active, .scenario-filter.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .vocab-list { display: flex; flex-direction: column; gap: 12px; }
+        .vocab-card { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        .vocab-info { flex: 1; }
+        .vocab-word { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .vocab-translation { font-size: 14px; color: #777; margin-bottom: 4px; }
+        .vocab-example { font-size: 12px; color: #999; font-style: italic; }
+        .vocab-mastered { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .vocab-unmastered { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; color: #ccc; }
+        .vocab-actions { display: flex; align-items: center; gap: 8px; }
+        .vocab-detail-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        .vocab-detail-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); }
+        .vocab-detail-content { position: relative; background: var(--card); border-radius: var(--radius); padding: 24px; width: 90%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .vocab-detail-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .vocab-detail-word { font-size: 28px; font-weight: 800; color: var(--primary); }
+        .vocab-detail-meaning { font-size: 16px; color: var(--text); margin-bottom: 16px; }
+        .vocab-detail-example { background: #F8F9FA; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+        .example-tagalog { font-size: 16px; font-style: italic; margin-bottom: 8px; }
+        .example-chinese { font-size: 14px; color: #666; }
+        .vocab-detail-actions { display: flex; gap: 12px; }
+        .vocab-detail-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .vocab-detail-btn.favorite-btn { background: #FFF3CD; color: #856404; }
+        .vocab-detail-btn.favorite-btn.active { background: #FFC107; color: #000; }
+        .vocab-detail-btn.close-btn { background: var(--border); color: var(--text); }
+        .progress-header { text-align: center; margin-bottom: 24px; }
+        .progress-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 32px; margin: 0 auto 16px; }
+        .progress-username { font-size: 24px; font-weight: 700; }
+        .progress-level { font-size: 14px; color: #777; }
+        .progress-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+        .stat-card { background: var(--card); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow); }
+        .stat-value { font-size: 28px; font-weight: 800; color: var(--primary); }
+        .stat-label { font-size: 12px; color: #777; margin-top: 4px; }
+        .history-section { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+        .history-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .history-list { display: flex; flex-direction: column; gap: 12px; }
+        .history-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg); border-radius: var(--radius-sm); }
+        .history-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .history-icon.success { background: #D4EDDA; } .history-icon.fail { background: #F8D7DA; }
+        .history-info { flex: 1; }
+        .history-action { font-size: 14px; font-weight: 600; }
+        .history-time { font-size: 12px; color: #777; }
+        .achievement-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .achievement-card { background: var(--card); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow); opacity: 0.5; }
+        .achievement-card.unlocked { opacity: 1; }
+        .achievement-icon { font-size: 32px; margin-bottom: 8px; } .achievement-name { font-size: 12px; font-weight: 600; }
+        .logout-btn { background: var(--warning); color: white; margin-top: 24px; }
+        .hidden { display: none !important; }
+        .type-input { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 18px; font-family: inherit; text-align: center; margin-top: 16px; }
+        .type-input:focus { outline: none; border-color: var(--primary); }
+        .empty-state { text-align: center; padding: 40px 20px; color: #777; }
+        .scenario-filter[data-value="food"].active { background: var(--accent); border-color: var(--accent); }
+        .scenario-filter[data-value="family"].active { background: #FF6B6B; border-color: #FF6B6B; }
+        .scenario-filter[data-value="work"].active { background: var(--secondary); border-color: var(--secondary); }
+        .scenario-filter[data-value="travel"].active { background: #45B7D1; border-color: #45B7D1; }
+        .scenario-filter[data-value="health"].active { background: #96CEB4; border-color: #96CEB4; }
+        .skill-card.nature { border-left: 4px solid #8B4513; }
+        .skill-card.technology { border-left: 4px solid #4169E1; }
+        .practice-category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 8px; }
+        .practice-category-card { background: var(--card); border-radius: var(--radius); padding: 20px 16px; box-shadow: var(--shadow); cursor: pointer; transition: all 0.2s ease; text-align: center; }
+        .practice-category-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .practice-category-card:active { transform: scale(0.97); }
+        .practice-category-icon { font-size: 36px; margin-bottom: 8px; }
+        .practice-category-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .practice-category-progress { font-size: 12px; color: var(--primary); font-weight: 600; }
+        .practice-category-desc { font-size: 11px; color: #888; line-height: 1.3; }
+        .practice-category-card.spelling { background: linear-gradient(135deg, #fff 0%, #f0f9e8 100%); border: 2px solid #58CC02; }
+        .practice-category-card.fillblank { background: linear-gradient(135deg, #fff 0%, #e8f4fc 100%); border: 2px solid #1CB0F6; }
+        .practice-category-card.translation { background: linear-gradient(135deg, #fff 0%, #fff4e8 100%); border: 2px solid #FF9600; }
+        .practice-category-card.writing { background: linear-gradient(135deg, #fff 0%, #fce8f4 100%); border: 2px solid #FF4B4B; }
+        .practice-category-card.match { background: linear-gradient(135deg, #fff 0%, #f4e8ff 100%); border: 2px solid #A55EEA; }
+        .practice-category-card.phrase { background: linear-gradient(135deg, #fff 0%, #fff0e6 100%); border: 2px solid #FF9F43; }
+        .practice-category-card.vocab { background: linear-gradient(135deg, #fff 0%, #e8fff4 100%); border: 2px solid #26DE81; }
+        .blank { color: #FF9F43; font-weight: bold; border-bottom: 2px solid #FF9F43; padding: 0 4px; }
+        .practice-category-card.vocab { background: linear-gradient(135deg, #fff 0%, #e8fff4 100%); border: 2px solid #26DE81; }
+        .practice-category-card.learn { background: linear-gradient(135deg, #fff 0%, #fff9e8 100%); border: 2px solid #FFB800; }
+        .learn-step-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
+        .learn-step-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: all 0.3s; }
+        .learn-step-dot.active { background: var(--primary); transform: scale(1.2); }
+        .learn-step-dot.completed { background: var(--primary); }
+        .learn-word-card { background: var(--card); border-radius: var(--radius); padding: 30px 24px; box-shadow: var(--shadow); text-align: center; margin-bottom: 20px; }
+        .learn-word { font-size: 48px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+        .learn-pos { display: inline-block; padding: 6px 14px; background: var(--secondary); color: white; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+        .learn-meaning { font-size: 26px; font-weight: 700; color: var(--text); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
+        .learn-example-section { text-align: left; }
+        .learn-example-label { font-size: 14px; color: #888; margin-bottom: 8px; }
+        .learn-example { font-size: 18px; color: var(--primary); font-style: italic; line-height: 1.6; margin-bottom: 8px; }
+        .learn-example-trans { font-size: 15px; color: #666; line-height: 1.5; }
+        .learn-hint { font-size: 14px; color: #888; text-align: center; margin-bottom: 16px; }
+        .learn-spelling-input { width: 100%; padding: 16px; border: 3px solid var(--secondary); border-radius: var(--radius-sm); font-size: 22px; text-align: center; font-family: inherit; background: #f0f9ff; }
+        .learn-spelling-input:focus { outline: none; border-color: var(--primary); background: #fff; }
+        .learn-spelling-input.correct { border-color: var(--primary); background: #D4EDDA; }
+        .learn-spelling-input.wrong { border-color: var(--warning); background: #F8D7DA; }
+        .learn-sentence-hint { background: #FFF9E8; border: 2px solid #FFB800; border-radius: var(--radius-sm); padding: 20px; margin-bottom: 16px; text-align: center; }
+        .learn-sentence-hint-label { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .learn-sentence-hint-text { font-size: 18px; color: var(--text); line-height: 1.5; }
+        .learn-sentence-input { width: 100%; padding: 16px; border: 3px solid #FFB800; border-radius: var(--radius-sm); font-size: 18px; font-family: inherit; background: #FFFDF5; min-height: 80px; text-align: left; resize: none; }
+        .learn-sentence-input:focus { outline: none; border-color: var(--accent); background: #fff; }
+        .learn-sentence-input.correct { border-color: var(--primary); background: #D4EDDA; }
+        .learn-sentence-input.wrong { border-color: var(--warning); background: #F8D7DA; }
+        .learn-correct-answer { background: #D4EDDA; border: 2px solid var(--primary); border-radius: var(--radius-sm); padding: 16px; margin-top: 12px; text-align: center; }
+        .learn-favorite-btn { background: #FFF3CD; border: 2px solid #FFC107; color: #856404; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .learn-favorite-btn:hover { background: #FFC107; }
+        .learn-favorite-btn.active { background: #FFC107; color: #000; }
+        .learn-correct-label { font-size: 12px; color: #46a302; margin-bottom: 4px; }
+        .learn-correct-text { font-size: 18px; color: var(--primary); font-weight: 600; }
+        .learn-next-btn { margin-top: 16px; }
+        .learn-grammar-box { background: #FFF9E8; border: 2px solid #FFB800; border-radius: var(--radius-sm); padding: 14px; margin-top: 12px; text-align: left; }
+        .learn-grammar-label { font-size: 12px; color: #B38600; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .favorite-btn { background: none; border: none; cursor: pointer; font-size: 24px; padding: 8px; transition: transform 0.2s; }
+        .favorite-btn:hover { transform: scale(1.2); }
+        .favorite-btn.active { color: var(--warning); }
+        .favorite-btn.inactive { color: #CCC; }
+        
+        /* 单词学习功能样式 */
+        .learn-word-card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); text-align: center; }
+        .learn-word { font-size: 36px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+        .learn-pos { font-size: 13px; color: #777; margin-bottom: 12px; display: inline-block; padding: 4px 12px; background: #F0F0F0; border-radius: 12px; }
+        .learn-meaning { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
+        .learn-example-section { text-align: left; }
+        .learn-example-label { font-size: 14px; font-weight: 700; color: #555; margin-bottom: 8px; }
+        .learn-example { font-size: 18px; color: var(--primary); font-style: italic; margin-bottom: 8px; line-height: 1.5; }
+        .learn-example-trans { font-size: 15px; color: #666; line-height: 1.5; }
+        .learn-grammar-box { margin-top: 16px; background: #FFF8E1; border-radius: 8px; padding: 14px; border-left: 4px solid #FFC107; }
+        .learn-grammar-label { font-size: 13px; font-weight: 700; color: #F57C00; margin-bottom: 8px; }
+        .learn-grammar-text { font-size: 13px; color: #5C4B00; line-height: 1.7; }
+        
+        .learn-step-indicator { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
+        .learn-step-dot { width: 12px; height: 12px; border-radius: 50%; background: #E0E0E0; transition: all 0.3s ease; }
+        .learn-step-dot.active { background: var(--primary); transform: scale(1.3); }
+        .learn-step-dot.completed { background: var(--primary); }
+        
+        .learn-hint { text-align: center; font-size: 15px; color: #777; margin-bottom: 16px; }
+        .learn-spelling-input { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 22px; text-align: center; font-family: inherit; transition: border-color 0.2s; }
+        .learn-spelling-input:focus { outline: none; border-color: var(--primary); }
+        .learn-spelling-input.correct { border-color: var(--primary); background: #D4EDDA; }
+        .learn-spelling-input.wrong { border-color: #FF6B6B; background: #F8D7DA; }
+        
+        .learn-sentence-hint { text-align: center; margin-bottom: 12px; }
+        .learn-sentence-hint-label { font-size: 14px; color: #777; margin-bottom: 12px; }
+        .learn-sentence-input { width: 100%; padding: 14px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 18px; font-family: inherit; line-height: 1.6; transition: border-color 0.2s; resize: vertical; min-height: 100px; }
+        .learn-sentence-input:focus { outline: none; border-color: var(--primary); }
+        .learn-sentence-input.correct { border-color: var(--primary); background: #D4EDDA; }
+        .learn-sentence-input.wrong { border-color: #FF6B6B; background: #F8D7DA; }
+        
+        .learn-correct-answer { background: #FFF8E1; border-radius: 8px; padding: 16px; margin-top: 12px; border-left: 4px solid #FFC107; }
+        .learn-correct-label { font-size: 13px; font-weight: 700; color: #F57C00; margin-bottom: 8px; }
+        .learn-correct-text { font-size: 18px; color: #5C4B00; font-weight: 600; }
+        .learn-next-btn { margin-top: 16px !important; }
+                .practice-category-card.phrase { background: linear-gradient(135deg, #fff 0%, #fff0e6 100%); border: 2px solid #FF9F43; }
+        .blank { color: #FF9F43; font-weight: bold; border-bottom: 2px solid #FF9F43; padding: 0 4px; }
+        .hidden { display: none !important; }
+        
+        .vocab-pagination { display: none; justify-content: center; align-items: center; gap: 16px; padding: 16px 20px; padding-bottom: 100px; }
+        .pagination-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--border); background: var(--card); font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .pagination-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+        .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pagination-info { font-size: 14px; color: #777; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div id="loginPage" class="page login-container active">
+            <div class="login-wrapper">
+                <div class="logo">🌴</div>
+                <div class="logo-text">Tagalog Master</div>
+                <div class="auth-card">
+                    <div class="auth-title" id="authTitle">登录</div>
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input type="text" id="username" placeholder="输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" id="password" placeholder="输入密码">
+                    </div>
+                    <p class="error-msg" id="errorMsg"></p>
+                    <button class="btn btn-primary" id="authBtn">登录</button>
+                    <div class="auth-switch">
+                        <span id="authSwitchText">没有账号？</span>
+                        <a id="authSwitchLink" onclick="toggleAuth()">立即注册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashboardPage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <div></div>
+                <div class="user-avatar" id="userAvatar" onclick="showProgress()"></div>
+            </div>
+            <div class="stats-card">
+                <div class="greeting" id="greeting">早上好!</div>
+                <div class="streak-info">
+                    <span class="streak-icon">🔥</span>
+                    <div>
+                        <div class="streak-count"><span id="streakCount">0</span> 天</div>
+                        <div class="streak-label">连续学习</div>
+                    </div>
+                </div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar" id="xpBar" style="width: 0%"></div>
+                </div>
+                <div class="xp-text">今日 XP: <span id="todayXP">0</span> / 50</div>
+                <div class="daily-goal">
+                    <div class="goal-item">
+                        <div class="goal-value" id="wordsLearned">0</div>
+                        <div class="goal-label">已学单词</div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-value" id="totalXP">0</div>
+                        <div class="goal-label">总 XP</div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-value" id="level">1</div>
+                        <div class="goal-label">等级</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">选择练习模式</div>
+            <div class="practice-category-grid">
+                <div class="practice-category-card learn" onclick="startLearnPractice()">
+                    <div class="practice-category-icon">📖</div>
+                    <div class="practice-category-name">单词学习</div>
+                    <div class="practice-category-desc">学单词→拼写→造句</div>
+                    <div class="practice-category-progress" id="learnProgress">-</div>
+                </div>
+                <div class="practice-category-card spelling" onclick="startPractice('spelling')">
+                    <div class="practice-category-icon">✏️</div>
+                    <div class="practice-category-name">拼写练习</div>
+                    <div class="practice-category-desc">根据中文提示拼写单词</div>
+                    <div class="practice-category-progress" id="spellingProgress">-</div>
+                </div>
+                <div class="practice-category-card fillblank" onclick="startPractice('cloze')">
+                    <div class="practice-category-icon">📝</div>
+                    <div class="practice-category-name">挖空填词</div>
+                    <div class="practice-category-desc">补全塔加禄语句子</div>
+                    <div class="practice-category-progress" id="clozeProgress">-</div>
+                </div>
+                <div class="practice-category-card translation" onclick="startPractice('translation')">
+                    <div class="practice-category-icon">🔤</div>
+                    <div class="practice-category-name">例句翻译</div>
+                    <div class="practice-category-desc">翻译塔加禄语例句</div>
+                    <div class="practice-category-progress" id="translationProgress">-</div>
+                </div>
+                <div class="practice-category-card writing" onclick="startPractice('write')">
+                    <div class="practice-category-icon">✍️</div>
+                    <div class="practice-category-name">整句写作</div>
+                    <div class="practice-category-desc">用塔加禄语写句子</div>
+                    <div class="practice-category-progress" id="writeProgress">-</div>
+                </div>
+                <div class="practice-category-card match" onclick="startPractice('mixed')">
+                    <div class="practice-category-icon">🎯</div>
+                    <div class="practice-category-name">词义配对</div>
+                    <div class="practice-category-desc">选择正确的中文翻译</div>
+                    <div class="practice-category-progress" id="mixedProgress">-</div>
+                </div>
+                <div class="practice-category-card phrase" onclick="showPhrasePracticeMode()">
+                    <div class="practice-category-icon">👋</div>
+                    <div class="practice-category-name">日常用语</div>
+                    <div class="practice-category-desc">练习常用塔加禄语句型</div>
+                    <div class="practice-category-progress" id="phraseProgress">-</div>
+                </div>
+            </div>
+            
+            <div class="practice-category-grid" style="margin-top: 4px;">
+                <div class="practice-category-card vocab" onclick="showVocab()">
+                    <div class="practice-category-icon">📚</div>
+                    <div class="practice-category-name">词汇浏览</div>
+                    <div class="practice-category-desc">查看所有词汇</div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 24px;">分类练习</div>
+            <div class="skill-grid">
+                <div class="skill-card noun" onclick="startPractice('noun')"><div class="skill-icon">📦</div><div class="skill-name">名词</div><div class="skill-progress" id="nounProgress">0/0</div></div>
+                <div class="skill-card verb" onclick="startPractice('verb')"><div class="skill-icon">🏃</div><div class="skill-name">动词</div><div class="skill-progress" id="verbProgress">0/0</div></div>
+                <div class="skill-card adj" onclick="startPractice('adj')"><div class="skill-icon">🎨</div><div class="skill-name">形容词</div><div class="skill-progress" id="adjProgress">0/0</div></div>
+                <div class="skill-card adv" onclick="startPractice('adv')"><div class="skill-icon">⚡</div><div class="skill-name">副词</div><div class="skill-progress" id="advProgress">0/0</div></div>
+                <div class="skill-card particle" onclick="startPractice('particle')"><div class="skill-icon">🔗</div><div class="skill-name">助词</div><div class="skill-progress" id="particleProgress">0/0</div></div>
+                <div class="skill-card pronoun" onclick="startPractice('pronoun')"><div class="skill-icon">👤</div><div class="skill-name">代词</div><div class="skill-progress" id="pronounProgress">0/0</div></div>
+                <div class="skill-card number" onclick="startPractice('number')"><div class="skill-icon">🔢</div><div class="skill-name">数词</div><div class="skill-progress" id="numberProgress">0/0</div></div>
+                <div class="skill-card number" onclick="startPractice('greetings')"><div class="skill-icon">👋</div><div class="skill-name">日常用语</div><div class="skill-progress" id="greetingsProgress">0/0</div></div>
+            </div>
+        </div>
+
+        <div id="phraseModePage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <button class="back-btn" onclick="showPage('dashboard')">←</button>
+                <div class="header-title">日常用语练习</div>
+                <div style="width: 40px;"></div>
+            </div>
+            <div style="padding: 16px 0;">
+                <div class="section-title">选择练习模式</div>
+                <div class="skill-grid">
+                    <div class="skill-card fillblank" onclick="startPhrasePractice('cloze')" style="padding: 20px;">
+                        <div class="skill-icon">📝</div>
+                        <div class="skill-name">挖空填词</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 4px;">补全日常用语句子</div>
+                    </div>
+                    <div class="skill-card writing" onclick="startPhrasePractice('write')" style="padding: 20px;">
+                        <div class="skill-icon">✍️</div>
+                        <div class="skill-name">整句默写</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 4px;">根据中文写完整句子</div>
+                    </div>
+                    <div class="skill-card translation" onclick="startPhrasePractice('translation')" style="padding: 20px;">
+                        <div class="skill-icon">🔤</div>
+                        <div class="skill-name">例句翻译</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 4px;">翻译塔加禄语日常用语</div>
+                    </div>
+                    <div class="skill-card match" onclick="startPhrasePractice('choice')" style="padding: 20px;">
+                        <div class="skill-icon">🎯</div>
+                        <div class="skill-name">选择翻译</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 4px;">选择正确的中文翻译</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="learningPage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <button class="back-btn" onclick="exitQuiz()">←</button>
+                <div class="header-title" id="quizTitle">练习中</div>
+                <div style="width: 40px;"></div>
+            </div>
+            <div id="quizContent">
+                <div class="quiz-container">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+                        <span class="quiz-count" id="quizCount">1/10</span>
+                    </div>
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-hint" id="quizHint"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <input type="text" class="type-input hidden" id="typeInput" placeholder="输入答案...">
+                    <button class="btn btn-primary check-btn hidden" id="checkBtn" onclick="checkTypeAnswer()">确认</button>
+                </div>
+            </div>
+            <div id="quizResult" class="hidden">
+                <div class="quiz-result">
+                    <div class="result-icon" id="resultIcon">🎉</div>
+                    <div class="result-title" id="resultTitle">太棒了!</div>
+                    <div class="result-stats" id="resultStats">正确率 80%</div>
+                    <div class="result-xp" id="resultXP">+40 XP</div>
+                    <button class="btn btn-primary" onclick="backToDashboard()">继续学习</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="vocabPage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <button class="back-btn" onclick="backToDashboard()">←</button>
+                <div class="header-title" id="vocabPageTitle">词汇库</div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="header-btn" id="vocabModeBtn" onclick="toggleVocabMode()" title="切换模式">📇</button>
+                </div>
+            </div>
+            
+            <div id="vocabSpellingArea" class="hidden" style="margin-bottom: 16px;">
+                <div class="quiz-progress" style="margin-bottom: 16px;">
+                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="vocabSpellingProgressFill"></div></div>
+                    <span class="quiz-count" id="vocabSpellingCount">1/20</span>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" id="vocabSearchInput" placeholder="搜索单词..." oninput="filterVocab()">
+            </div>
+            
+            <div class="vocab-filters" id="vocabFilters">
+                <button class="vocab-filter active" data-value="all" onclick="filterVocabByPos('all')">全部</button>
+                <button class="vocab-filter" data-value="noun" onclick="filterVocabByPos('noun')">名词</button>
+                <button class="vocab-filter" data-value="verb" onclick="filterVocabByPos('verb')">动词</button>
+                <button class="vocab-filter" data-value="adj" onclick="filterVocabByPos('adj')">形容词</button>
+                <button class="vocab-filter" data-value="adv" onclick="filterVocabByPos('adv')">副词</button>
+                <button class="vocab-filter" data-value="particle" onclick="filterVocabByPos('particle')">助词</button>
+                <button class="vocab-filter" data-value="pronoun" onclick="filterVocabByPos('pronoun')">代词</button>
+                <button class="vocab-filter" data-value="number" onclick="filterVocabByPos('number')">数词</button>
+                <button class="vocab-filter" data-value="greetings" onclick="filterVocabByPos('greetings')">用语</button>
+                <button class="vocab-filter" data-value="science" onclick="filterVocabByPos('science')">科学</button>
+                <button class="vocab-filter" data-value="travel" onclick="filterVocabByPos('travel')">旅行</button>
+                <button class="vocab-filter" data-value="food" onclick="filterVocabByPos('food')">食物</button>
+                <button class="vocab-filter" data-value="health" onclick="filterVocabByPos('health')">健康</button>
+                <button class="vocab-filter" data-value="nature" onclick="filterVocabByPos('nature')">自然</button>
+                <button class="vocab-filter" data-value="work" onclick="filterVocabByPos('work')">工作</button>
+                <button class="vocab-filter" data-value="family" onclick="filterVocabByPos('family')">家庭</button>
+                <button class="vocab-filter" data-value="technology" onclick="filterVocabByPos('technology')">科技</button>
+            </div>
+            
+            <div class="scenario-filters" id="scenarioFilters">
+                <button class="scenario-filter active" data-value="all" onclick="filterVocabByScenario('all')">全部</button>
+                <button class="scenario-filter" data-value="daily" onclick="filterVocabByScenario('daily')">日常</button>
+                <button class="scenario-filter" data-value="food" onclick="filterVocabByScenario('food')">食物</button>
+                <button class="scenario-filter" data-value="nature" onclick="filterVocabByScenario('nature')">自然</button>
+                <button class="scenario-filter" data-value="travel" onclick="filterVocabByScenario('travel')">旅行</button>
+                <button class="scenario-filter" data-value="technology" onclick="filterVocabByScenario('technology')">科技</button>
+                <button class="scenario-filter" data-value="education" onclick="filterVocabByScenario('education')">教育</button>
+                <button class="scenario-filter" data-value="health" onclick="filterVocabByScenario('health')">健康</button>
+                <button class="scenario-filter" data-value="work" onclick="filterVocabByScenario('work')">工作</button>
+                <button class="scenario-filter" data-value="family" onclick="filterVocabByScenario('family')">家庭</button>
+            </div>
+            
+            <div id="vocabList" class="vocab-list"></div>
+            
+            <div id="vocabPagination" class="vocab-pagination"></div>
+        </div>
+
+        <div id="wrongBookPage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <button class="back-btn" onclick="backToDashboard()">←</button>
+                <div class="header-title">错题本</div>
+                <div style="width: 40px;"></div>
+            </div>
+            <div id="wrongBookEmpty" class="empty-state">
+                <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
+                <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">暂无错题</div>
+                <div>继续学习，答错的题目会自动记录在这里</div>
+            </div>
+            <div id="wrongBookContent" style="display:none;">
+                <div class="vocab-list" id="wrongBookList"></div>
+                <button class="btn btn-secondary" style="margin-top:16px;" onclick="startWrongBookPractice()">练习错题</button>
+            </div>
+        </div>
+
+        <div id="favoritesPage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <button class="back-btn" onclick="backToDashboard()">←</button>
+                <div class="header-title">我的收藏</div>
+                <div style="width: 40px;"></div>
+            </div>
+            <div id="favoritesEmpty" class="empty-state">
+                <div style="font-size: 48px; margin-bottom: 16px;">💔</div>
+                <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">暂无收藏</div>
+                <div>在学习或浏览词汇时点击收藏按钮</div>
+            </div>
+            <div id="favoritesContent" style="display:none;">
+                <div class="vocab-list" id="favoritesList"></div>
+                <button class="btn btn-secondary" style="margin-top:16px;" onclick="startFavoritesPractice()">练习收藏</button>
+            </div>
+        </div>
+
+        <div id="progressPage" class="page" style="padding-bottom: 80px;">
+            <div class="header">
+                <button class="back-btn" onclick="backToDashboard()">←</button>
+                <div class="header-title">学习进度</div>
+                <div style="width: 40px;"></div>
+            </div>
+            <div class="progress-header">
+                <div class="progress-avatar" id="progressAvatar">U</div>
+                <div class="progress-username" id="progressUsername">用户名</div>
+                <div class="progress-level" id="progressLevel">等级 1</div>
+            </div>
+            <div class="progress-stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="progressTotalWords">0</div>
+                    <div class="stat-label">已学单词</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="progressTotalXP">0</div>
+                    <div class="stat-label">总 XP</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="progressStreak">0</div>
+                    <div class="stat-label">连续天数</div>
+                </div>
+            </div>
+            <div class="progress-stats-grid">
+                <div class="stat-card" style="background:#FFF3CD;">
+                    <div class="stat-value" id="progressWrongCount" style="color:#856404;">0</div>
+                    <div class="stat-label">错题数</div>
+                </div>
+                <div class="stat-card" style="background:#FCE4EC;">
+                    <div class="stat-value" id="progressFavCount" style="color:#C2185B;">0</div>
+                    <div class="stat-label">收藏数</div>
+                </div>
+            </div>
+            <div class="history-section">
+                <div class="history-title">学习历史</div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+            <button class="btn logout-btn" onclick="logout()">退出登录</button>
+        </div>
+
+        <div class="bottom-nav" id="bottomNav">
+            <button class="nav-item active" onclick="showPage('dashboard')">
+                <span>🏠</span>
+                <span>首页</span>
+            </button>
+            <button class="nav-item" onclick="showVocab()">
+                <span>📚</span>
+                <span>词汇</span>
+            </button>
+            <button class="nav-item" onclick="showPage('wrongBook')">
+                <span>❌</span>
+                <span>错题本</span>
+            </button>
+            <button class="nav-item" onclick="showPage('favorites')">
+                <span>❤️</span>
+                <span>收藏</span>
+            </button>
+            <button class="nav-item" onclick="showProgress()">
+                <span>📊</span>
+                <span>进度</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="vocabulary.js"></script>
+    <script>
+// VOCABULARY 对象已移至 vocabulary.js 文件
+
+
+let learnWords = [];
+let learnIndex = 0;
+let learnStep = 0; // 0=学习, 1=拼写, 2=造句
+let learnCurrentWord = null;
+let learnCurrentExample = null;
+let learnHasExample = false; // 是否有例句用于第三步
+
+let currentCategory = 'mixed';
+let currentQuizTotal = 0;
+let vocabFilter = { pos: 'all', scenario: 'all', search: '' };
+
+let vocabLoaded = false;
+let cachedVocab = null;
+
+let vocabCurrentPage = 1;
+let vocabPageSize = 20;
+let vocabTotalPages = 1;
+let vocabTotalCount = 0;
+
+async function getAllVocab() {
+    if (cachedVocab) {
+        return cachedVocab;
+    }
+    
+    const merged = { ...VOCABULARY };
+    if (typeof VOCABULARY_EXTRA !== 'undefined') {
+        Object.keys(VOCABULARY_EXTRA).forEach(cat => {
+            if (merged[cat]) {
+                merged[cat] = [...merged[cat], ...VOCABULARY_EXTRA[cat]];
+            } else {
+                merged[cat] = VOCABULARY_EXTRA[cat];
+            }
+        });
+    }
+    
+    if (!vocabLoaded && typeof VOCABULARY_JSON !== 'undefined') {
+        Object.keys(VOCABULARY_JSON).forEach(cat => {
+            if (!merged[cat]) {
+                merged[cat] = [];
+            }
+            
+            VOCABULARY_JSON[cat].forEach(word => {
+                const exists = merged[cat].some(w => w.tagalog === word.tagalog);
+                if (!exists) {
+                    merged[cat].push(word);
+                }
+            });
+        });
+        vocabLoaded = true;
+        console.log('Loaded additional words from VOCABULARY_JSON');
+    }
+    
+    cachedVocab = merged;
+    return merged;
+}
+
+async function getVocabCountByCategory() {
+    const vocab = await getAllVocab();
+    const counts = {};
+    Object.keys(vocab).forEach(cat => {
+        counts[cat] = vocab[cat].length;
+    });
+    return counts;
+}
+
+async function getLearnedCountByCategory() {
+    const vocab = await getAllVocab();
+    const userData = getUserData();
+    const counts = {};
+    Object.keys(vocab).forEach(cat => {
+        counts[cat] = userData.learnedWords[cat] ? userData.learnedWords[cat].length : 0;
+    });
+    return counts;
+}
+
+async function updateCategoryProgress() {
+    const counts = await getVocabCountByCategory();
+    const learned = await getLearnedCountByCategory();
+    Object.keys(counts).forEach(cat => {
+        const el = document.getElementById(cat + 'Progress');
+        if (el) {
+            const learnedCount = learned[cat] || 0;
+            const totalCount = counts[cat] || 0;
+            el.textContent = learnedCount + '/' + totalCount;
+        }
+    });
+    
+    updatePracticeProgress();
+}
+
+async function updatePracticeProgress() {
+    const vocab = await getAllVocab();
+    const userData = getUserData();
+    
+    const totalWords = Object.values(vocab).flat().length;
+    const learnedWords = Object.values(userData.learnedWords).flat().length;
+    
+    const learnEl = document.getElementById('learnProgress');
+    if (learnEl) {
+        learnEl.textContent = learnedWords + '/' + totalWords;
+    }
+    
+    const spellingEl = document.getElementById('spellingProgress');
+    if (spellingEl) {
+        spellingEl.textContent = learnedWords + '/' + totalWords;
+    }
+    
+    const clozeEl = document.getElementById('clozeProgress');
+    if (clozeEl) {
+        clozeEl.textContent = learnedWords + '/' + totalWords;
+    }
+    
+    const translationEl = document.getElementById('translationProgress');
+    if (translationEl) {
+        translationEl.textContent = learnedWords + '/' + totalWords;
+    }
+    
+    const writeEl = document.getElementById('writeProgress');
+    if (writeEl) {
+        writeEl.textContent = learnedWords + '/' + totalWords;
+    }
+    
+    const mixedEl = document.getElementById('mixedProgress');
+    if (mixedEl) {
+        mixedEl.textContent = learnedWords + '/' + totalWords;
+    }
+    
+    const phraseEl = document.getElementById('phraseProgress');
+    if (phraseEl && vocab['phrase']) {
+        const totalPhrases = vocab['phrase'].length;
+        const learnedPhrases = (userData.learnedWords['phrase'] || []).length;
+        phraseEl.textContent = learnedPhrases + '/' + totalPhrases;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('authBtn').addEventListener('click', handleAuth);
+    document.getElementById('username').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleAuth();
+    });
+    document.getElementById('password').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleAuth();
+    });
+    
+    const userData = getUserData();
+    if (userData.isLoggedIn && userData.username) {
+        showDashboard();
+    }
+});
+
+function getUserData() {
+    try {
+        const stored = localStorage.getItem('tagalogUserData');
+        if (stored && stored !== 'undefined' && stored !== 'null') {
+            const parsed = JSON.parse(stored);
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                return {
+                    username: parsed.username || '',
+                    password: parsed.password || '',
+                    isLoggedIn: parsed.isLoggedIn || false,
+                    streak: parsed.streak || 0,
+                    lastStudyDate: parsed.lastStudyDate || null,
+                    totalXP: parsed.totalXP || 0,
+                    todayXP: parsed.todayXP || 0,
+                    level: parsed.level || 1,
+                    learnedWords: parsed.learnedWords || {},
+                    favorites: Array.isArray(parsed.favorites) ? parsed.favorites : [],
+                    wrongAnswers: Array.isArray(parsed.wrongAnswers) ? parsed.wrongAnswers : [],
+                    history: Array.isArray(parsed.history) ? parsed.history : []
+                };
+            }
+        }
+    } catch (e) {
+        console.error('Failed to parse user data:', e);
+        localStorage.removeItem('tagalogUserData');
+    }
+    return {
+        username: '',
+        password: '',
+        isLoggedIn: false,
+        streak: 0,
+        lastStudyDate: null,
+        totalXP: 0,
+        todayXP: 0,
+        level: 1,
+        learnedWords: {},
+        favorites: [],
+        wrongAnswers: [],
+        history: []
+    };
+}
+
+function saveUserData(data) {
+    console.log('saveUserData called with data:', data);
+    console.log('wrongAnswers in data:', data.wrongAnswers);
+    localStorage.setItem('tagalogUserData', JSON.stringify(data));
+    console.log('Saved to localStorage, checking localStorage:', localStorage.getItem('tagalogUserData'));
+}
+
+function handleAuth() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const isRegister = document.getElementById('authTitle').textContent === '注册';
+    const errorMsg = document.getElementById('errorMsg');
+    
+    if (!username || !password) {
+        errorMsg.textContent = '请输入用户名和密码';
+        errorMsg.style.display = 'block';
+        return;
+    }
+    
+    let userData = getUserData();
+    
+    if (isRegister) {
+        if (userData.username && userData.password) {
+            errorMsg.textContent = '账号已存在，请登录';
+            errorMsg.style.display = 'block';
+            return;
+        }
+        userData.username = username;
+        userData.password = password;
+        userData.isLoggedIn = true;
+        saveUserData(userData);
+        showDashboard();
+    } else {
+        if (username === userData.username && password === userData.password) {
+            userData.isLoggedIn = true;
+            saveUserData(userData);
+            showDashboard();
+        } else {
+            errorMsg.textContent = '用户名或密码错误';
+            errorMsg.style.display = 'block';
+        }
+    }
+}
+
+function toggleAuth() {
+    const title = document.getElementById('authTitle');
+    const switchText = document.getElementById('authSwitchText');
+    const switchLink = document.getElementById('authSwitchLink');
+    const btn = document.getElementById('authBtn');
+    
+    if (title.textContent === '登录') {
+        title.textContent = '注册';
+        switchText.textContent = '已有账号？';
+        switchLink.textContent = '立即登录';
+        btn.textContent = '注册';
+    } else {
+        title.textContent = '登录';
+        switchText.textContent = '没有账号？';
+        switchLink.textContent = '立即注册';
+        btn.textContent = '登录';
+    }
+}
+
+async function showDashboard() {
+    document.getElementById('loginPage').classList.remove('active');
+    document.getElementById('dashboardPage').classList.add('active');
+    document.getElementById('bottomNav').style.display = 'flex';
+    
+    const userData = getUserData();
+    document.getElementById('userAvatar').textContent = userData.username ? userData.username[0].toUpperCase() : 'U';
+    
+    updateDashboard();
+    await updateCategoryProgress();
+}
+
+function updateDashboard() {
+    const userData = getUserData();
+    const greeting = document.getElementById('greeting');
+    const hour = new Date().getHours();
+    if (hour < 12) {
+        greeting.textContent = '早上好，' + userData.username + '！';
+    } else if (hour < 18) {
+        greeting.textContent = '下午好，' + userData.username + '！';
+    } else {
+        greeting.textContent = '晚上好，' + userData.username + '！';
+    }
+    
+    document.getElementById('streakCount').textContent = userData.streak;
+    document.getElementById('todayXP').textContent = userData.todayXP;
+    document.getElementById('totalXP').textContent = userData.totalXP;
+    document.getElementById('level').textContent = userData.level;
+    document.getElementById('xpBar').style.width = (userData.todayXP / 50 * 100) + '%';
+    
+    const totalLearned = Object.values(userData.learnedWords).flat().length;
+    document.getElementById('wordsLearned').textContent = totalLearned;
+}
+
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    if (page === 'dashboard') {
+        document.getElementById('dashboardPage').classList.add('active');
+        document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+        updateDashboard();
+        updateCategoryProgress();
+    } else if (page === 'vocab') {
+        document.getElementById('vocabPage').classList.add('active');
+        document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+        renderVocabList();
+    } else if (page === 'wrongBook') {
+        document.getElementById('wrongBookPage').classList.add('active');
+        document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+        showWrongBook();
+    } else if (page === 'favorites') {
+        document.getElementById('favoritesPage').classList.add('active');
+        document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+        showFavorites();
+    } else if (page === 'progress') {
+        document.getElementById('progressPage').classList.add('active');
+        document.querySelector('.nav-item:nth-child(5)').classList.add('active');
+    } else if (page === 'learning') {
+        document.getElementById('learningPage').classList.add('active');
+    }
+}
+
+function showVocab() {
+    showPage('vocab');
+    renderVocabList();
+}
+
+function showWrongBook() {
+    const userData = getUserData();
+    const emptyEl = document.getElementById('wrongBookEmpty');
+    const contentEl = document.getElementById('wrongBookContent');
+    const listEl = document.getElementById('wrongBookList');
+    
+    listEl.innerHTML = '';
+    
+    if (userData.wrongAnswers.length > 0) {
+        emptyEl.style.display = 'none';
+        contentEl.style.display = 'block';
+        
+        userData.wrongAnswers.slice().reverse().forEach(word => {
+            const div = document.createElement('div');
+            div.className = 'vocab-card';
+            div.innerHTML = `
+                <div class="vocab-info">
+                    <div class="vocab-word">${word.tagalog}</div>
+                    <div class="vocab-translation">${word.chinese}</div>
+                    <div class="vocab-example">${word.example || ''}</div>
+                </div>
+                <div class="vocab-actions">
+                    <button class="btn" style="padding:6px 12px;font-size:12px;background:#FF4B4B;color:white;border-radius:8px;" onclick="removeWrongAnswer('${word.tagalog.replace(/'/g, "\\'")}')">移除</button>
+                </div>
+            `;
+            listEl.appendChild(div);
+        });
+    } else {
+        emptyEl.style.display = 'block';
+        contentEl.style.display = 'none';
+    }
+    
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+}
+
+function showFavorites() {
+    const userData = getUserData();
+    const emptyEl = document.getElementById('favoritesEmpty');
+    const contentEl = document.getElementById('favoritesContent');
+    const listEl = document.getElementById('favoritesList');
+    
+    listEl.innerHTML = '';
+    
+    if (userData.favorites.length > 0) {
+        emptyEl.style.display = 'none';
+        contentEl.style.display = 'block';
+        
+        userData.favorites.slice().reverse().forEach(word => {
+            const div = document.createElement('div');
+            div.className = 'vocab-card';
+            div.innerHTML = `
+                <div class="vocab-info">
+                    <div class="vocab-word">${word.tagalog}</div>
+                    <div class="vocab-translation">${word.chinese}</div>
+                    <div class="vocab-example">${word.example || ''}</div>
+                </div>
+                <div class="vocab-actions">
+                    <button class="btn" style="padding:6px 12px;font-size:12px;background:#FFC107;color:#000;border-radius:8px;" onclick="removeFavorite('${word.tagalog.replace(/'/g, "\\'")}')">取消收藏</button>
+                </div>
+            `;
+            listEl.appendChild(div);
+        });
+    } else {
+        emptyEl.style.display = 'block';
+        contentEl.style.display = 'none';
+    }
+    
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+}
+
+function removeFavorite(tagalog) {
+    const userData = getUserData();
+    userData.favorites = userData.favorites.filter(w => w.tagalog !== tagalog);
+    saveUserData(userData);
+    showFavorites();
+}
+
+function startWrongBookPractice() {
+    const userData = getUserData();
+    if (userData.wrongAnswers.length > 0) {
+        currentCategory = 'wrongAnswers';
+        document.getElementById('quizTitle').textContent = '错题练习';
+        document.getElementById('quizContent').classList.remove('hidden');
+        document.getElementById('quizResult').classList.add('hidden');
+        showPage('learning');
+        generateWrongBookQuiz(userData.wrongAnswers);
+    }
+}
+
+function startFavoritesPractice() {
+    const userData = getUserData();
+    if (userData.favorites.length > 0) {
+        currentCategory = 'favorites';
+        document.getElementById('quizTitle').textContent = '收藏练习';
+        document.getElementById('quizContent').classList.remove('hidden');
+        document.getElementById('quizResult').classList.add('hidden');
+        startQuiz(userData.favorites);
+    }
+}
+
+function showProgress() {
+    const userData = getUserData();
+    document.getElementById('progressUsername').textContent = userData.username;
+    document.getElementById('progressAvatar').textContent = userData.username ? userData.username[0].toUpperCase() : 'U';
+    document.getElementById('progressLevel').textContent = '等级 ' + userData.level;
+    
+    const totalLearned = Object.values(userData.learnedWords).flat().length;
+    document.getElementById('progressTotalWords').textContent = totalLearned;
+    document.getElementById('progressTotalXP').textContent = userData.totalXP;
+    document.getElementById('progressStreak').textContent = userData.streak;
+    
+    document.getElementById('progressWrongCount').textContent = userData.wrongAnswers.length;
+    document.getElementById('progressFavCount').textContent = userData.favorites.length;
+    
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = '';
+    userData.history.slice(-10).reverse().forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        const iconClass = item.correct ? 'success' : 'fail';
+        const icon = item.correct ? '✓' : '✗';
+        const time = new Date(item.time).toLocaleString('zh-CN');
+        div.innerHTML = `
+            <div class="history-icon ${iconClass}">${icon}</div>
+            <div class="history-info">
+                <div class="history-action">${item.word} - ${item.result}</div>
+                <div class="history-time">${time}</div>
+            </div>
+        `;
+        historyList.appendChild(div);
+    });
+    
+    if (userData.history.length === 0) {
+        historyList.innerHTML = '<div class="empty-state">暂无学习记录</div>';
+    }
+    
+    showPage('progress');
+}
+
+function removeWrongAnswer(tagalog) {
+    const userData = getUserData();
+    userData.wrongAnswers = userData.wrongAnswers.filter(w => w.tagalog !== tagalog);
+    saveUserData(userData);
+    showWrongBook();
+}
+
+async function generateWrongAnswersQuiz() {
+    const userData = getUserData();
+    const words = userData.wrongAnswers.slice(0, 10);
+    currentQuizTotal = words.length;
+    let currentIndex = 0;
+    let correctCount = 0;
+    
+    async function showQuestion(index) {
+        if (index >= words.length) {
+            showQuizResult(correctCount, words.length);
+            return;
+        }
+        
+        const word = words[index];
+        document.getElementById('quizCount').textContent = (index + 1) + '/' + words.length;
+        document.getElementById('quizProgressFill').style.width = ((index) / words.length * 100) + '%';
+        
+        document.getElementById('quizQuestion').textContent = word.tagalog;
+        document.getElementById('quizHint').textContent = '请选择正确的中文翻译';
+        document.getElementById('quizOptions').innerHTML = '';
+        document.getElementById('typeInput').classList.add('hidden');
+        document.getElementById('checkBtn').classList.add('hidden');
+        
+        const options = generateOptions(word.chinese);
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.onclick = () => selectAnswer(btn, opt === word.chinese, word);
+            document.getElementById('quizOptions').appendChild(btn);
+        });
+    }
+    
+    function selectAnswer(btn, isCorrect, word) {
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach(opt => opt.style.pointerEvents = 'none');
+        
+        if (isCorrect) {
+            btn.classList.add('correct');
+            correctCount++;
+            removeFromWrongAnswers(word.tagalog);
+            addHistory(word.tagalog, '正确', true);
+        } else {
+            btn.classList.add('wrong');
+            options.forEach(opt => {
+                if (opt.textContent === word.chinese) {
+                    opt.classList.add('correct');
+                }
+            });
+            addHistory(word.tagalog, '错误', false);
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    window.selectAnswer = selectAnswer;
+    await showQuestion(0);
+}
+
+async function startPractice(category) {
+    console.log('startPractice called with category:', category);
+    currentCategory = category;
+    console.log('currentCategory set to:', currentCategory);
+    document.getElementById('quizTitle').textContent = getCategoryName(category);
+    document.getElementById('quizContent').classList.remove('hidden');
+    document.getElementById('quizResult').classList.add('hidden');
+    
+    showPage('learning');
+    
+    await generateQuiz();
+}
+
+function getCategoryName(cat) {
+    const names = {
+        'noun': '名词练习',
+        'verb': '动词练习',
+        'adj': '形容词练习',
+        'adv': '副词练习',
+        'particle': '助词练习',
+        'pronoun': '代词练习',
+        'number': '数词练习',
+        'greetings': '日常用语练习',
+        'spelling': '拼写练习',
+        'cloze': '挖空填词',
+        'translation': '例句翻译',
+        'write': '整句写作',
+        'mixed': '综合练习'
+    };
+    return names[cat] || '练习';
+}
+
+function getQuizWords() {
+    if (typeof VOCABULARY === 'undefined') {
+        console.error('VOCABULARY is not defined!');
+        return [];
+    }
+    
+    const vocab = VOCABULARY;
+    let words = [];
+    
+    console.log('getQuizWords called with currentCategory:', currentCategory);
+    
+    if (currentCategory === 'mixed' || currentCategory === 'spelling') {
+        Object.keys(vocab).forEach(cat => {
+            if (cat !== 'phrase') {
+                words = words.concat(vocab[cat]);
+            }
+        });
+    } else if (currentCategory === 'cloze' || currentCategory === 'translation' || currentCategory === 'write') {
+        Object.keys(vocab).forEach(cat => {
+            vocab[cat].forEach(word => {
+                if (word.example && word.example !== '（无例句）' && word.example.trim() !== '') {
+                    words.push(word);
+                }
+            });
+        });
+        
+        if (words.length === 0) {
+            console.log('No words with examples found, falling back to all words');
+            Object.keys(vocab).forEach(cat => {
+                words = words.concat(vocab[cat]);
+            });
+        }
+    } else if (vocab[currentCategory]) {
+        words = vocab[currentCategory];
+    } else {
+        console.log('No matching category found, using all words');
+        Object.keys(vocab).forEach(cat => {
+            words = words.concat(vocab[cat]);
+        });
+    }
+    
+    console.log('getQuizWords returning', words.length, 'words');
+    return shuffleArray(words).slice(0, 10);
+}
+
+function shuffleArray(array) {
+    const newArr = [...array];
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    }
+    return newArr;
+}
+
+async function generateQuiz() {
+    if (typeof getQuizWords !== 'function') {
+        return;
+    }
+    
+    const words = await getQuizWords();
+    currentQuizTotal = words ? words.length : 0;
+    if (!words || words.length === 0) {
+        showQuizResult(0, 0);
+        return;
+    }
+    
+    let currentIndex = 0;
+    let correctCount = 0;
+    
+    function showQuestion(index) {
+        if (index >= words.length) {
+            showQuizResult(correctCount, words.length);
+            return;
+        }
+        
+        const word = words[index];
+        if (!word) {
+            currentIndex++;
+            showQuestion(currentIndex);
+            return;
+        }
+        document.getElementById('quizCount').textContent = (index + 1) + '/' + words.length;
+        document.getElementById('quizProgressFill').style.width = ((index) / words.length * 100) + '%';
+        
+        const quizType = currentCategory === 'spelling' ? 'spelling' : 
+                        currentCategory === 'cloze' ? 'cloze' :
+                        currentCategory === 'translation' ? 'translation' :
+                        currentCategory === 'write' ? 'write' :
+                        currentCategory === 'mixed' ? (Math.random() > 0.5 ? 'choice' : 'spelling') :
+                        'choice';
+        
+        if (quizType === 'choice') {
+            document.getElementById('quizQuestion').textContent = word.tagalog;
+            document.getElementById('quizHint').textContent = '请选择正确的中文翻译';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.add('hidden');
+            document.getElementById('checkBtn').classList.add('hidden');
+            
+            const options = generateOptions(word.chinese);
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt;
+                btn.onclick = () => selectAnswer(btn, opt === word.chinese, word);
+                document.getElementById('quizOptions').appendChild(btn);
+            });
+        } else if (quizType === 'spelling') {
+            document.getElementById('quizQuestion').textContent = word.chinese;
+            document.getElementById('quizHint').textContent = '请拼写这个单词';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkSpelling(word);
+        } else if (quizType === 'cloze') {
+            document.getElementById('quizQuestion').innerHTML = word.example.replace(word.tagalog, '<span class="blank">_____</span>');
+            document.getElementById('quizHint').textContent = '请填写空缺的单词';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkCloze(word);
+        } else if (quizType === 'translation') {
+            document.getElementById('quizQuestion').innerHTML = word.example;
+            document.getElementById('quizHint').textContent = '请翻译这个句子';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkTranslation(word);
+        } else if (quizType === 'write') {
+            document.getElementById('quizQuestion').innerHTML = word.exampleTrans;
+            document.getElementById('quizHint').textContent = '请用他加禄语写出这个句子';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkWrite(word);
+        }
+    }
+    
+    function selectAnswer(btn, isCorrect, word) {
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach(opt => opt.style.pointerEvents = 'none');
+        
+        if (isCorrect) {
+            btn.classList.add('correct');
+            correctCount++;
+            addToLearned(word);
+            addHistory(word.tagalog, '正确', true);
+        } else {
+            btn.classList.add('wrong');
+            options.forEach(opt => {
+                if (opt.textContent === word.chinese) {
+                    opt.classList.add('correct');
+                }
+            });
+            addHistory(word.tagalog, '错误', false);
+            addToWrongAnswers(word);
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    window.selectAnswer = selectAnswer;
+    
+    function checkSpelling(word) {
+        const input = document.getElementById('typeInput').value.trim().toLowerCase();
+        const isCorrect = input === word.tagalog.toLowerCase();
+        
+        if (isCorrect) {
+            correctCount++;
+            addToLearned(word);
+            addHistory(word.tagalog, '正确', true);
+            document.getElementById('typeInput').classList.add('correct');
+        } else {
+            addHistory(word.tagalog, '错误', false);
+            addToWrongAnswers(word);
+            document.getElementById('typeInput').classList.add('wrong');
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    window.checkSpelling = checkSpelling;
+    
+    function checkCloze(word) {
+        const input = document.getElementById('typeInput').value.trim().toLowerCase();
+        const isCorrect = input === word.tagalog.toLowerCase();
+        
+        if (isCorrect) {
+            correctCount++;
+            addToLearned(word);
+            addHistory(word.tagalog, '正确', true);
+            document.getElementById('typeInput').classList.add('correct');
+        } else {
+            addHistory(word.tagalog, '错误', false);
+            addToWrongAnswers(word);
+            document.getElementById('typeInput').classList.add('wrong');
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    window.checkCloze = checkCloze;
+    
+    function checkTranslation(word) {
+        const input = document.getElementById('typeInput').value.trim();
+        document.getElementById('typeInput').disabled = true;
+        document.getElementById('checkBtn').disabled = true;
+        
+        document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${word.exampleTrans}</strong>`;
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').disabled = false;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            document.getElementById('checkBtn').disabled = false;
+            showQuestion(currentIndex);
+        }, 3000);
+    }
+    
+    window.checkTranslation = checkTranslation;
+    
+    function checkWrite(word) {
+        const input = document.getElementById('typeInput').value.trim();
+        document.getElementById('typeInput').disabled = true;
+        document.getElementById('checkBtn').disabled = true;
+        
+        document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${word.example}</strong>`;
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').disabled = false;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            document.getElementById('checkBtn').disabled = false;
+            showQuestion(currentIndex);
+        }, 3000);
+    }
+    
+    window.checkWrite = checkWrite;
+    
+    window.checkTypeAnswer = function() {
+        const word = words[currentIndex];
+        if (currentCategory === 'spelling') {
+            checkSpelling(word);
+        } else if (currentCategory === 'cloze') {
+            checkCloze(word);
+        } else if (currentCategory === 'translation') {
+            checkTranslation(word);
+        } else if (currentCategory === 'write') {
+            checkWrite(word);
+        }
+    };
+    
+    showQuestion(0);
+}
+
+async function generateWrongBookQuiz(wrongWords) {
+    const words = shuffleArray(wrongWords);
+    currentQuizTotal = words.length;
+    let currentIndex = 0;
+    let correctCount = 0;
+    
+    function showQuestion(index) {
+        if (index >= words.length) {
+            showQuizResult(correctCount, words.length);
+            return;
+        }
+        
+        const word = words[index];
+        document.getElementById('quizCount').textContent = (index + 1) + '/' + words.length;
+        document.getElementById('quizProgressFill').style.width = ((index) / words.length * 100) + '%';
+        
+        const originalMode = word.wrongMode || 'mixed';
+        const isPhrase = word.pos === 'phrase' || (!word.pos && word.tagalog && word.tagalog.includes(' '));
+        
+        let quizType;
+        if (originalMode === 'learn' && !isPhrase) {
+            quizType = 'learn';
+        } else if (originalMode === 'spelling') {
+            quizType = 'spelling';
+        } else if (originalMode === 'cloze') {
+            quizType = 'cloze';
+        } else if (originalMode === 'translation') {
+            quizType = 'translation';
+        } else if (originalMode === 'write') {
+            quizType = 'write';
+        } else {
+            quizType = 'choice';
+        }
+        
+        if (quizType === 'learn') {
+            document.getElementById('quizQuestion').innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div class="learn-word">${word.tagalog}</div>
+                </div>
+                <div class="learn-pos">${getPosName(word.pos)}</div>
+                <div class="learn-meaning">${word.chinese}</div>
+                <div class="learn-example-section">
+                    <div class="learn-example-label">例句</div>
+                    <div class="learn-example">${word.example || '（暂无例句）'}</div>
+                    <div class="learn-example-trans">${word.exampleTrans || ''}</div>
+                </div>
+            `;
+            document.getElementById('quizHint').textContent = '记住这个单词，准备拼写';
+            document.getElementById('quizOptions').innerHTML = '';
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-primary';
+            btn.textContent = '记住了，开始拼写 →';
+            btn.onclick = () => showWrongSpelling(word);
+            document.getElementById('quizOptions').appendChild(btn);
+            document.getElementById('typeInput').classList.add('hidden');
+            document.getElementById('checkBtn').classList.add('hidden');
+        } else if (quizType === 'choice') {
+            document.getElementById('quizQuestion').textContent = word.tagalog;
+            document.getElementById('quizHint').textContent = '请选择正确的中文翻译';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.add('hidden');
+            document.getElementById('checkBtn').classList.add('hidden');
+            
+            const options = generateOptions(word.chinese);
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt;
+                btn.onclick = () => selectWrongAnswer(btn, opt === word.chinese, word);
+                document.getElementById('quizOptions').appendChild(btn);
+            });
+        } else if (quizType === 'spelling') {
+            document.getElementById('quizQuestion').textContent = word.chinese;
+            document.getElementById('quizHint').textContent = '请拼写这个单词';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkWrongSpelling(word);
+        } else if (quizType === 'cloze') {
+            document.getElementById('quizQuestion').innerHTML = word.example.replace(word.tagalog, '<span class="blank">_____</span>');
+            document.getElementById('quizHint').textContent = '请填写空缺的单词';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkWrongCloze(word);
+        } else if (quizType === 'translation') {
+            document.getElementById('quizQuestion').innerHTML = word.example;
+            document.getElementById('quizHint').textContent = '请翻译这个句子';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkWrongTranslation(word);
+        } else if (quizType === 'write') {
+            document.getElementById('quizQuestion').innerHTML = word.exampleTrans;
+            document.getElementById('quizHint').textContent = '请用他加禄语写出这个句子';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkWrongWrite(word);
+        }
+    }
+    
+    function selectWrongAnswer(btn, isCorrect, word) {
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach(opt => opt.style.pointerEvents = 'none');
+        
+        if (isCorrect) {
+            btn.classList.add('correct');
+            correctCount++;
+            addToLearned(word);
+            addHistory(word.tagalog, '正确', true);
+            removeFromWrongAnswers(word);
+        } else {
+            btn.classList.add('wrong');
+            options.forEach(opt => {
+                if (opt.textContent === word.chinese) {
+                    opt.classList.add('correct');
+                }
+            });
+            addHistory(word.tagalog, '错误', false);
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    function checkWrongSpelling(word) {
+        const input = document.getElementById('typeInput').value.trim().toLowerCase();
+        const isCorrect = input === word.tagalog.toLowerCase();
+        
+        if (isCorrect) {
+            correctCount++;
+            addToLearned(word);
+            addHistory(word.tagalog, '正确', true);
+            removeFromWrongAnswers(word);
+            document.getElementById('typeInput').classList.add('correct');
+        } else {
+            addHistory(word.tagalog, '错误', false);
+            document.getElementById('typeInput').classList.add('wrong');
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    function showWrongSpelling(word) {
+            document.getElementById('quizQuestion').innerHTML = `<div style="font-size: 18px; color: #333;">${word.chinese}</div>`;
+            document.getElementById('quizHint').textContent = '请拼写这个单词';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('typeInput').classList.remove('hidden');
+            document.getElementById('typeInput').value = '';
+            document.getElementById('typeInput').focus();
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('checkBtn').onclick = () => checkWrongSpelling(word);
+        }
+
+    function checkWrongCloze(word) {
+        const input = document.getElementById('typeInput').value.trim().toLowerCase();
+        const isCorrect = input === word.tagalog.toLowerCase();
+        
+        if (isCorrect) {
+            correctCount++;
+            addToLearned(word);
+            addHistory(word.tagalog, '正确', true);
+            removeFromWrongAnswers(word);
+            document.getElementById('typeInput').classList.add('correct');
+        } else {
+            addHistory(word.tagalog, '错误', false);
+            document.getElementById('typeInput').classList.add('wrong');
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            showQuestion(currentIndex);
+        }, 1500);
+    }
+    
+    function checkWrongTranslation(word) {
+        const input = document.getElementById('typeInput').value.trim();
+        document.getElementById('typeInput').disabled = true;
+        document.getElementById('checkBtn').disabled = true;
+        
+        document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${word.exampleTrans}</strong>`;
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').disabled = false;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            document.getElementById('checkBtn').disabled = false;
+            showQuestion(currentIndex);
+        }, 3000);
+    }
+    
+    function checkWrongWrite(word) {
+        const input = document.getElementById('typeInput').value.trim();
+        document.getElementById('typeInput').disabled = true;
+        document.getElementById('checkBtn').disabled = true;
+        
+        document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${word.example}</strong>`;
+        
+        setTimeout(() => {
+            currentIndex++;
+            document.getElementById('typeInput').disabled = false;
+            document.getElementById('typeInput').classList.remove('correct', 'wrong');
+            document.getElementById('checkBtn').disabled = false;
+            showQuestion(currentIndex);
+        }, 3000);
+    }
+    
+    showQuestion(0);
+}
+
+// 完整的单词学习功能
+async function startLearnPractice() {
+    const allVocab = await getAllVocab();
+    let words = [];
+    Object.values(allVocab).forEach(arr => words.push(...arr));
+    learnWords = shuffleArray(words).slice(0, 10);
+    learnIndex = 0;
+    currentCategory = 'learn';
+    
+    document.getElementById('quizTitle').textContent = '单词学习';
+    showPage('learning');
+    document.getElementById('quizResult').classList.add('hidden');
+    document.getElementById('quizContent').classList.remove('hidden');
+    
+    showLearnStep();
+}
+
+function showLearnStep() {
+    if (learnIndex >= learnWords.length) {
+        // 完成所有单词
+        endLearnPractice();
+        return;
+    }
+    
+    learnCurrentWord = learnWords[learnIndex];
+    learnStep = 0; // 从学习阶段开始
+    
+    // 获取例句
+    if (learnCurrentWord.example && learnCurrentWord.example !== '（无例句）') {
+        learnCurrentExample = {
+            tagalog: learnCurrentWord.example,
+            chinese: learnCurrentWord.exampleTrans || ''
+        };
+        learnHasExample = true;
+    } else {
+        learnHasExample = false;
+    }
+    
+    updateLearnProgress();
+    showLearnStage();
+}
+
+function showLearnStage() {
+    const word = learnCurrentWord;
+    const example = learnCurrentExample;
+    
+    console.log('showLearnStage called, learnStep:', learnStep);
+    console.log('Current word:', word ? word.tagalog : 'null');
+    console.log('Current example:', example ? example.tagalog : 'null');
+    
+    document.getElementById('quizHint').textContent = '';
+    
+    let stepIndicator = '';
+    for (let i = 0; i < 3; i++) {
+        let cls = 'learn-step-dot';
+        if (i === learnStep) cls += ' active';
+        else if (i < learnStep) cls += ' completed';
+        stepIndicator += `<div class="${cls}"></div>`;
+    }
+    
+    const stepLabels = ['📖 学习', '✏️ 拼写', '✍️ 造句'];
+    
+    if (learnStep === 0) {
+        // 学习阶段：展示单词意思和例句
+        const isFav = isFavorite(word);
+        document.getElementById('quizQuestion').innerHTML = `
+            <div class="learn-step-indicator">${stepIndicator}</div>
+            <div style="text-align: center; font-size: 14px; color: #888; margin-bottom: 12px;">${stepLabels[0]}</div>
+            <div class="learn-word-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div class="learn-word">${word.tagalog}</div>
+                    <button class="favorite-btn ${isFav ? 'active' : 'inactive'}" onclick="toggleLearnFavorite(this)">${isFav ? '♥' : '♡'}</button>
+                </div>
+                <div class="learn-pos">${getPosName(word.pos)}</div>
+                <div class="learn-meaning">${word.chinese}</div>
+                <div class="learn-example-section">
+                    <div class="learn-example-label">例句</div>
+                    <div class="learn-example">${word.example || '（暂无例句）'}</div>
+                    <div class="learn-example-trans">${word.exampleTrans || ''}</div>
+                    ${word.grammar ? `<div class="learn-grammar-box">
+                        <div class="learn-grammar-label">语法解析</div>
+                        <div class="learn-grammar-text">${word.grammar}</div>
+                    </div>` : ''}
+                </div>
+            </div>
+        `;
+        document.getElementById('quizOptions').innerHTML = `
+            <button class="btn btn-primary" onclick="nextLearnStep()">记住了，开始拼写 →</button>
+        `;
+        document.getElementById('typeInput').classList.add('hidden');
+        document.getElementById('checkBtn').classList.add('hidden');
+        
+    } else if (learnStep === 1) {
+        // 拼写阶段
+        document.getElementById('quizQuestion').innerHTML = `
+            <div class="learn-step-indicator">${stepIndicator}</div>
+            <div style="text-align: center; font-size: 14px; color: #888; margin-bottom: 12px;">${stepLabels[1]}</div>
+            <div class="quiz-example" style="font-size: 24px; padding: 30px; background: linear-gradient(135deg, #f0f9e8 0%, #e8f5e8 100%); border: 3px solid #58CC02;">
+                ${word.chinese}
+            </div>
+            <div class="learn-hint">请拼写出这个单词</div>
+            <input type="text" id="learnSpellingInput" class="learn-spelling-input" placeholder="输入塔加禄语..." autocomplete="off">
+        `;
+        document.getElementById('quizOptions').innerHTML = `
+            <button class="btn btn-primary" id="learnSpellingCheckBtn" onclick="checkLearnSpelling()">确认</button>
+            <div id="learnSpellingResult" class="hidden"></div>
+        `;
+        document.getElementById('typeInput').classList.add('hidden');
+        document.getElementById('checkBtn').classList.add('hidden');
+        setTimeout(() => {
+            const input = document.getElementById('learnSpellingInput');
+            if (input) input.focus();
+        }, 100);
+        
+    } else if (learnStep === 2) {
+        // 造句阶段：根据中文翻译默写塔加禄语例句
+        if (learnHasExample && example) {
+            document.getElementById('quizQuestion').innerHTML = `
+                <div class="learn-step-indicator">${stepIndicator}</div>
+                <div style="text-align: center; font-size: 14px; color: #888; margin-bottom: 12px;">${stepLabels[2]}</div>
+                <div class="learn-sentence-hint">
+                    <div class="learn-sentence-hint-label">请根据中文翻译，写出对应的塔加禄语例句</div>
+                    <div style="font-size: 18px; color: #333; margin: 16px 0; padding: 16px; background: #f0f9e8; border-radius: 8px; border-left: 4px solid #58CC02;">
+                        ${example.chinese}
+                    </div>
+                    <div style="font-size: 13px; color: #888; margin-bottom: 8px;">提示：例句中包含「${word.tagalog}」</div>
+                </div>
+                <textarea id="learnSentenceInput" class="learn-sentence-input" placeholder="输入塔加禄语句子..." rows="3"></textarea>
+            `;
+            document.getElementById('quizOptions').innerHTML = `
+                <button class="btn btn-primary" onclick="checkLearnSentence()">确认</button>
+                <div id="learnSentenceResult" class="hidden"></div>
+            `;
+        } else {
+            // 没有例句，直接到下一个单词
+            nextWord();
+            return;
+        }
+        document.getElementById('typeInput').classList.add('hidden');
+        document.getElementById('checkBtn').classList.add('hidden');
+        setTimeout(() => {
+            const input = document.getElementById('learnSentenceInput');
+            if (input) input.focus();
+        }, 100);
+    }
+}
+
+function nextLearnStep() {
+    learnStep++;
+    showLearnStage();
+}
+
+function checkLearnSpelling() {
+    const input = document.getElementById('learnSpellingInput');
+    if (!input) return;
+    const userAnswer = input.value.trim().toLowerCase();
+    const correctAnswer = learnCurrentWord.tagalog.toLowerCase();
+    const resultDiv = document.getElementById('learnSpellingResult');
+    const checkBtn = document.getElementById('learnSpellingCheckBtn');
+    
+    console.log('checkLearnSpelling called');
+    console.log('learnCurrentWord:', learnCurrentWord);
+    console.log('userAnswer:', userAnswer);
+    console.log('correctAnswer:', correctAnswer);
+    
+    if (input.disabled) return; // 已经答对了，防止重复点击
+    
+    if (userAnswer === correctAnswer) {
+        input.classList.add('correct');
+        input.disabled = true;
+        if (checkBtn) {
+            checkBtn.disabled = true;
+            checkBtn.style.display = 'none';
+        }
+        
+        addToLearned(learnCurrentWord);
+        
+        // 根据是否有例句决定下一步
+        if (learnHasExample && learnCurrentExample) {
+            // 有例句，自动进入造句阶段
+            resultDiv.innerHTML = `<div style="color: var(--primary); font-size: 16px; font-weight: 700; margin-top: 12px;">✓ 正确！太棒了！现在来默写例句吧！</div>`;
+            resultDiv.classList.remove('hidden');
+            // 自动进入第三步造句阶段
+            setTimeout(() => {
+                learnStep = 2;
+                showLearnStage();
+            }, 1500);
+        } else {
+            // 没有例句，显示完成提示并进入下一题
+            resultDiv.innerHTML = `<div style="color: var(--primary); font-size: 16px; font-weight: 700; margin-top: 12px;">✓ 正确！太棒了！</div>`;
+            resultDiv.classList.remove('hidden');
+            setTimeout(() => {
+                nextWord();
+            }, 1500);
+        }
+    } else {
+        input.classList.add('wrong');
+        input.disabled = true;
+        if (checkBtn) {
+            checkBtn.disabled = true;
+            checkBtn.style.display = 'none';
+        }
+        resultDiv.innerHTML = `
+            <div class="learn-correct-answer">
+                <div class="learn-correct-label">正确答案</div>
+                <div class="learn-correct-text">${learnCurrentWord.tagalog}</div>
+            </div>
+        `;
+        resultDiv.classList.remove('hidden');
+        addToWrongAnswers(learnCurrentWord);
+        setTimeout(() => {
+            nextWord();
+        }, 2000);
+    }
+}
+
+function checkLearnSentence() {
+    const input = document.getElementById('learnSentenceInput');
+    if (!input) return;
+    const userAnswer = input.value.trim().toLowerCase().replace(/[.,!?]/g, '');
+    const resultDiv = document.getElementById('learnSentenceResult');
+    const checkBtn = document.getElementById('quizOptions').querySelector('.btn');
+    
+    if (input.disabled) return; // 已经答对了，防止重复点击
+    
+    // 获取正确的例句（去除标点后比较）
+    const correctSentence = learnCurrentExample.tagalog.toLowerCase().replace(/[.,!?]/g, '');
+    
+    // 检查用户是否输入了正确的例句（允许小差异）
+    const isCorrect = userAnswer === correctSentence || 
+                    (userAnswer.includes(learnCurrentWord.tagalog.toLowerCase()) && 
+                     userAnswer.length > correctSentence.length * 0.5);
+    
+    if (isCorrect) {
+        input.classList.add('correct');
+        input.disabled = true;
+        if (checkBtn) checkBtn.disabled = true;
+        resultDiv.innerHTML = `
+            <div style="color: var(--primary); font-size: 16px; font-weight: 700; margin-top: 12px;">✓ 正确！例句默写正确！</div>
+            <div style="color: #666; font-size: 14px; margin-top: 8px;">${learnCurrentExample.tagalog}</div>
+            <div style="color: #888; font-size: 13px; margin-top: 4px;">${learnCurrentExample.chinese}</div>
+            <button class="btn btn-primary learn-next-btn" onclick="nextWord()" style="margin-top: 12px;">下一题 →</button>
+        `;
+        resultDiv.classList.remove('hidden');
+        addToLearned(learnCurrentWord);
+    } else {
+        input.classList.add('wrong');
+        input.disabled = true;
+        if (checkBtn) checkBtn.disabled = true;
+        resultDiv.innerHTML = `
+            <div class="learn-correct-answer">
+                <div class="learn-correct-label">正确答案</div>
+                <div class="learn-correct-text">${learnCurrentExample.tagalog}</div>
+                <div style="color: #666; font-size: 13px; margin-top: 4px;">${learnCurrentExample.chinese}</div>
+            </div>
+            <button class="btn btn-primary learn-next-btn" onclick="nextWord()" style="margin-top: 12px;">下一题</button>
+        `;
+        resultDiv.classList.remove('hidden');
+        addToWrongAnswers(learnCurrentWord);
+    }
+}
+
+function nextWord() {
+    learnIndex++;
+    showLearnStep();
+}
+
+function endLearnPractice() {
+    document.getElementById('quizContent').classList.add('hidden');
+    document.getElementById('quizResult').classList.remove('hidden');
+    document.getElementById('resultIcon').textContent = '🎉';
+    document.getElementById('resultTitle').textContent = '学习完成！';
+    document.getElementById('resultStats').textContent = '学习了 ' + learnWords.length + ' 个单词';
+    const xp = learnWords.length * 10;
+    document.getElementById('resultXP').innerHTML = '+' + xp + ' XP';
+    document.getElementById('quizResult').querySelector('.btn').textContent = '再学一组';
+    document.getElementById('quizResult').querySelector('.btn').onclick = startLearnPractice;
+    
+    // 更新用户数据
+    const userData = getUserData();
+    userData.totalXP += xp;
+    userData.todayXP += xp;
+    userData.level = Math.floor(userData.totalXP / 100) + 1;
+    
+    const today = new Date().toDateString();
+    if (userData.lastStudyDate !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (userData.lastStudyDate === yesterday.toDateString()) {
+            userData.streak++;
+        } else {
+            userData.streak = 1;
+        }
+        userData.lastStudyDate = today;
+        userData.todayXP = xp;
+    }
+    saveUserData(userData);
+    updateDashboard();
+}
+
+function updateLearnProgress() {
+    const progress = (learnIndex / learnWords.length) * 100;
+    document.getElementById('quizProgressFill').style.width = progress + '%';
+    document.getElementById('quizCount').textContent = '第 ' + (learnIndex + 1) + ' / ' + learnWords.length + ' 个单词';
+}
+
+function getPosName(pos) {
+    const names = {
+        'noun': '名词',
+        'verb': '动词',
+        'adj': '形容词',
+        'adv': '副词',
+        'particle': '助词',
+        'pronoun': '代词',
+        'pron': '代词',
+        'number': '数词',
+        'greeting': '问候语',
+        'phrase': '短语',
+        'expression': '表达'
+    };
+    return names[pos] || pos;
+}
+
+function generateOptions(correctAnswer) {
+    if (typeof VOCABULARY === 'undefined') {
+        console.error('VOCABULARY is not defined in generateOptions');
+        return [correctAnswer, '选项1', '选项2', '选项3'];
+    }
+    
+    const vocab = VOCABULARY;
+    const allAnswers = [];
+    
+    try {
+        Object.keys(vocab).forEach(cat => {
+            if (Array.isArray(vocab[cat])) {
+                vocab[cat].forEach(w => {
+                    if (w && w.chinese && w.chinese !== correctAnswer) {
+                        allAnswers.push(w.chinese);
+                    }
+                });
+            }
+        });
+    } catch (e) {
+        console.error('Error in generateOptions:', e);
+        return [correctAnswer, '选项1', '选项2', '选项3'];
+    }
+    
+    if (allAnswers.length < 3) {
+        return [correctAnswer, '选项1', '选项2', '选项3'];
+    }
+    
+    const shuffled = shuffleArray(allAnswers).slice(0, 3);
+    shuffled.push(correctAnswer);
+    return shuffleArray(shuffled);
+}
+
+function generatePhraseOptions(correctAnswer) {
+    const vocab = getAllVocabSync();
+    const phrases = vocab['phrase'] || [];
+    const otherAnswers = phrases.filter(p => p.chinese !== correctAnswer).map(p => p.chinese);
+    
+    const shuffled = shuffleArray(otherAnswers).slice(0, 3);
+    shuffled.push(correctAnswer);
+    return shuffleArray(shuffled);
+}
+
+function getAllVocabSync() {
+    const merged = { ...VOCABULARY };
+    if (typeof VOCABULARY_EXTRA !== 'undefined') {
+        Object.keys(VOCABULARY_EXTRA).forEach(cat => {
+            if (merged[cat]) {
+                merged[cat] = [...merged[cat], ...VOCABULARY_EXTRA[cat]];
+            } else {
+                merged[cat] = VOCABULARY_EXTRA[cat];
+            }
+        });
+    }
+    return merged;
+}
+
+function showQuizResult(correct, total) {
+    document.getElementById('quizContent').classList.add('hidden');
+    document.getElementById('quizResult').classList.remove('hidden');
+    
+    const percentage = Math.round((correct / total) * 100);
+    document.getElementById('resultStats').textContent = `正确率 ${percentage}% (${correct}/${total})`;
+    
+    const xp = correct * 4;
+    document.getElementById('resultXP').textContent = '+' + xp + ' XP';
+    
+    if (percentage >= 80) {
+        document.getElementById('resultIcon').textContent = '🎉';
+        document.getElementById('resultTitle').textContent = '太棒了！';
+    } else if (percentage >= 60) {
+        document.getElementById('resultIcon').textContent = '👍';
+        document.getElementById('resultTitle').textContent = '还不错！';
+    } else {
+        document.getElementById('resultIcon').textContent = '💪';
+        document.getElementById('resultTitle').textContent = '继续加油！';
+    }
+    
+    const userData = getUserData();
+    userData.totalXP += xp;
+    userData.todayXP += xp;
+    userData.level = Math.floor(userData.totalXP / 100) + 1;
+    
+    const today = new Date().toDateString();
+    if (userData.lastStudyDate !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (userData.lastStudyDate === yesterday.toDateString()) {
+            userData.streak++;
+        } else {
+            userData.streak = 1;
+        }
+        userData.lastStudyDate = today;
+        userData.todayXP = xp;
+    }
+    
+    saveUserData(userData);
+}
+
+async function addToLearned(word) {
+    const userData = getUserData();
+    const vocab = await getAllVocab();
+    let category = word.pos;
+    Object.keys(vocab).forEach(cat => {
+        if (vocab[cat].some(w => w.tagalog === word.tagalog)) {
+            category = cat;
+        }
+    });
+    
+    if (!userData.learnedWords[category]) {
+        userData.learnedWords[category] = [];
+    }
+    
+    if (!userData.learnedWords[category].find(w => w.tagalog === word.tagalog)) {
+        userData.learnedWords[category].push(word);
+        saveUserData(userData);
+        updateCategoryProgress();
+    }
+}
+
+function addHistory(word, result, correct) {
+    const userData = getUserData();
+    userData.history.push({
+        word: word,
+        result: result,
+        correct: correct,
+        time: Date.now()
+    });
+    
+    if (userData.history.length > 100) {
+        userData.history = userData.history.slice(-100);
+    }
+    
+    saveUserData(userData);
+}
+
+function addToWrongAnswers(word) {
+    const userData = getUserData();
+    const existingWord = userData.wrongAnswers.find(w => w.tagalog === word.tagalog);
+    if (!existingWord) {
+        const wordWithMode = { ...word, wrongMode: currentCategory };
+        userData.wrongAnswers.push(wordWithMode);
+        saveUserData(userData);
+    }
+}
+
+function removeFromWrongAnswers(word) {
+    const userData = getUserData();
+    userData.wrongAnswers = userData.wrongAnswers.filter(w => w.tagalog !== word.tagalog);
+    saveUserData(userData);
+}
+
+function toggleFavorite(word) {
+    const userData = getUserData();
+    const index = userData.favorites.findIndex(w => w.tagalog === word.tagalog);
+    if (index === -1) {
+        userData.favorites.push(word);
+    } else {
+        userData.favorites.splice(index, 1);
+    }
+    saveUserData(userData);
+    return index === -1;
+}
+
+function isFavorite(word) {
+    const userData = getUserData();
+    return userData.favorites.some(w => w.tagalog === word.tagalog);
+}
+
+function toggleLearnFavorite(btn) {
+    const word = learnCurrentWord;
+    if (!word) return;
+    
+    const isNowFavorite = toggleFavorite(word);
+    btn.className = 'favorite-btn ' + (isNowFavorite ? 'active' : 'inactive');
+    btn.textContent = isNowFavorite ? '♥' : '♡';
+}
+
+function logout() {
+    const userData = getUserData();
+    userData.isLoggedIn = false;
+    saveUserData(userData);
+    document.getElementById('loginPage').classList.add('active');
+    document.getElementById('dashboardPage').classList.remove('active');
+    document.getElementById('bottomNav').style.display = 'none';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+}
+
+function backToDashboard() {
+    showPage('dashboard');
+    updateDashboard();
+}
+
+function exitQuiz() {
+    backToDashboard();
+}
+
+function filterVocabByPos(pos) {
+    vocabFilter.pos = pos;
+    document.querySelectorAll('.vocab-filter').forEach(f => f.classList.remove('active'));
+    document.querySelector(`.vocab-filter[data-value="${pos}"]`).classList.add('active');
+    resetVocabPage();
+    renderVocabList();
+}
+
+function filterVocabByScenario(scenario) {
+    vocabFilter.scenario = scenario;
+    document.querySelectorAll('.scenario-filter').forEach(f => f.classList.remove('active'));
+    document.querySelector(`.scenario-filter[data-value="${scenario}"]`).classList.add('active');
+    resetVocabPage();
+    renderVocabList();
+}
+
+function filterVocab() {
+    vocabFilter.search = document.getElementById('vocabSearchInput').value.trim().toLowerCase();
+    resetVocabPage();
+    renderVocabList();
+}
+
+async function renderVocabList() {
+    const vocab = await getAllVocab();
+    const userData = getUserData();
+    const list = document.getElementById('vocabList');
+    list.innerHTML = '';
+    
+    let filteredWords = [];
+    
+    Object.keys(vocab).forEach(cat => {
+        if (vocabFilter.pos === 'all' || vocabFilter.pos === cat) {
+            vocab[cat].forEach(word => {
+                if (vocabFilter.scenario === 'all' || word.scenario === vocabFilter.scenario) {
+                    if (!vocabFilter.search || 
+                        word.tagalog.toLowerCase().includes(vocabFilter.search) ||
+                        word.chinese.includes(vocabFilter.search)) {
+                        filteredWords.push(word);
+                    }
+                }
+            });
+        }
+    });
+    
+    vocabTotalCount = filteredWords.length;
+    vocabTotalPages = Math.ceil(vocabTotalCount / vocabPageSize);
+    vocabCurrentPage = Math.min(vocabCurrentPage, vocabTotalPages);
+    vocabCurrentPage = Math.max(1, vocabCurrentPage);
+    
+    const startIndex = (vocabCurrentPage - 1) * vocabPageSize;
+    const endIndex = startIndex + vocabPageSize;
+    const pageWords = filteredWords.slice(startIndex, endIndex);
+    
+    pageWords.forEach(word => {
+        const isLearned = userData.learnedWords[word.pos]?.some(w => w.tagalog === word.tagalog);
+        const card = document.createElement('div');
+        card.className = 'vocab-card';
+        card.innerHTML = `
+            <div class="vocab-info">
+                <div class="vocab-word">${word.tagalog}</div>
+                <div class="vocab-translation">${word.chinese}</div>
+                <div class="vocab-example">${word.example || ''}</div>
+            </div>
+            <div class="vocab-actions">
+                <div class="${isLearned ? 'vocab-mastered' : 'vocab-unmastered'}">${isLearned ? '✓' : ''}</div>
+            </div>
+        `;
+        card.onclick = () => showVocabDetail(word);
+        list.appendChild(card);
+    });
+    
+    if (filteredWords.length === 0) {
+        list.innerHTML = '<div class="empty-state">没有找到匹配的单词</div>';
+        document.getElementById('vocabPagination').style.display = 'none';
+    } else {
+        renderVocabPagination();
+        document.getElementById('vocabPagination').style.display = 'flex';
+    }
+}
+
+function renderVocabPagination() {
+    const pagination = document.getElementById('vocabPagination');
+    pagination.innerHTML = '';
+    
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'pagination-btn';
+    prevBtn.textContent = '←';
+    prevBtn.onclick = () => {
+        if (vocabCurrentPage > 1) {
+            vocabCurrentPage--;
+            renderVocabList();
+        }
+    };
+    prevBtn.disabled = vocabCurrentPage <= 1;
+    pagination.appendChild(prevBtn);
+    
+    const infoSpan = document.createElement('span');
+    infoSpan.className = 'pagination-info';
+    infoSpan.textContent = `${vocabCurrentPage} / ${vocabTotalPages} (${vocabTotalCount}个单词)`;
+    pagination.appendChild(infoSpan);
+    
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'pagination-btn';
+    nextBtn.textContent = '→';
+    nextBtn.onclick = () => {
+        if (vocabCurrentPage < vocabTotalPages) {
+            vocabCurrentPage++;
+            renderVocabList();
+        }
+    };
+    nextBtn.disabled = vocabCurrentPage >= vocabTotalPages;
+    pagination.appendChild(nextBtn);
+}
+
+function resetVocabPage() {
+    vocabCurrentPage = 1;
+}
+
+function showVocabDetail(word) {
+    const isFav = isFavorite(word);
+    const modal = document.createElement('div');
+    modal.className = 'vocab-detail-modal';
+    modal.innerHTML = `
+        <div class="vocab-detail-overlay" onclick="this.parentElement.remove()"></div>
+        <div class="vocab-detail-content">
+            <div class="vocab-detail-header">
+                <div class="vocab-detail-word">${word.tagalog}</div>
+                <span class="pos-tag pos-${word.pos}">${getPosName(word.pos)}</span>
+            </div>
+            <div class="vocab-detail-meaning">${word.chinese}</div>
+            ${word.example ? `
+            <div class="vocab-detail-example">
+                <div class="example-tagalog">${word.example}</div>
+                <div class="example-chinese">${word.exampleTrans || ''}</div>
+            </div>
+            ` : ''}
+            <div class="vocab-detail-actions">
+                <button class="vocab-detail-btn favorite-btn ${isFav ? 'active' : ''}" onclick="handleFavorite(this, '${word.tagalog.replace(/'/g, "\\'")}', '${word.chinese.replace(/'/g, "\\'")}', '${word.pos}', '${word.scenario}')">${isFav ? '♥ 已收藏' : '♡ 收藏'}</button>
+                <button class="vocab-detail-btn close-btn" onclick="this.closest('.vocab-detail-modal').remove()">关闭</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function handleFavorite(btn, tagalog, chinese, pos, scenario) {
+    const word = {tagalog, chinese, pos, scenario, example: '', exampleTrans: ''};
+    const isNowFavorite = toggleFavorite(word);
+    btn.className = 'vocab-detail-btn favorite-btn ' + (isNowFavorite ? 'active' : '');
+    btn.textContent = isNowFavorite ? '♥ 已收藏' : '♡ 收藏';
+}
+
+function toggleVocabMode() {
+    const area = document.getElementById('vocabSpellingArea');
+    area.classList.toggle('hidden');
+}
+
+
+
+
+// 日常用语相关函数
+function showPhrasePracticeMode() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('phraseModePage').classList.add('active');
+}
+
+let phraseQuizMode = 'choice';
+let phraseWords = [];
+let phraseIndex = 0;
+let phraseCorrectCount = 0;
+
+async function startPhrasePractice(mode) {
+    phraseQuizMode = mode;
+    const vocab = await getAllVocab();
+    phraseWords = shuffleArray(vocab['phrase'] || []).slice(0, 10);
+    phraseIndex = 0;
+    phraseCorrectCount = 0;
+    
+    document.getElementById('quizTitle').textContent = getPhraseModeName(mode);
+    document.getElementById('quizContent').classList.remove('hidden');
+    document.getElementById('quizResult').classList.add('hidden');
+    
+    showPage('learning');
+    await showPhraseQuestion(0);
+}
+
+function getPhraseModeName(mode) {
+    const names = {
+        'choice': '日常用语 - 选择翻译',
+        'cloze': '日常用语 - 挖空填词',
+        'write': '日常用语 - 整句默写',
+        'translation': '日常用语 - 例句翻译'
+    };
+    return names[mode] || '日常用语练习';
+}
+
+async function showPhraseQuestion(index) {
+    if (index >= phraseWords.length) {
+        showPhraseQuizResult();
+        return;
+    }
+    
+    const phrase = phraseWords[index];
+    document.getElementById('quizCount').textContent = (index + 1) + '/' + phraseWords.length;
+    document.getElementById('quizProgressFill').style.width = ((index) / phraseWords.length * 100) + '%';
+    document.getElementById('typeInput').classList.add('hidden');
+    document.getElementById('checkBtn').classList.add('hidden');
+    document.getElementById('quizOptions').innerHTML = '';
+    document.getElementById('typeInput').disabled = false;
+    document.getElementById('checkBtn').disabled = false;
+    
+    if (phraseQuizMode === 'choice') {
+        // 选择翻译
+        document.getElementById('quizQuestion').textContent = phrase.tagalog;
+        document.getElementById('quizHint').textContent = '请选择正确的中文翻译';
+        document.getElementById('typeInput').classList.add('hidden');
+        document.getElementById('checkBtn').classList.add('hidden');
+        
+        const options = generatePhraseOptions(phrase.chinese);
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.onclick = () => selectPhraseAnswer(btn, opt === phrase.chinese, phrase);
+            document.getElementById('quizOptions').appendChild(btn);
+        });
+    } else if (phraseQuizMode === 'cloze') {
+        // 挖空填词 - 挖空句子中的某个词并给出中文翻译提示
+        const words = phrase.tagalog.split(' ');
+        const blankIndex = Math.floor(Math.random() * words.length);
+        const blankWord = words[blankIndex];
+        
+        let displayWords = [...words];
+        displayWords[blankIndex] = '<span class="blank">_____</span>';
+        document.getElementById('quizQuestion').innerHTML = displayWords.join(' ');
+        document.getElementById('quizHint').innerHTML = `提示：${phrase.chinese}`;
+        
+        document.getElementById('typeInput').classList.remove('hidden');
+        document.getElementById('typeInput').value = '';
+        document.getElementById('typeInput').focus();
+        document.getElementById('checkBtn').classList.remove('hidden');
+        document.getElementById('checkBtn').onclick = () => checkPhraseCloze(phrase, blankWord);
+    } else if (phraseQuizMode === 'write') {
+        // 整句默写 - 给出中文，写完整塔加禄语句子
+        document.getElementById('quizQuestion').textContent = phrase.chinese;
+        document.getElementById('quizHint').textContent = '请根据中文写出完整的塔加禄语句子';
+        document.getElementById('typeInput').classList.remove('hidden');
+        document.getElementById('typeInput').value = '';
+        document.getElementById('typeInput').focus();
+        document.getElementById('checkBtn').classList.remove('hidden');
+        document.getElementById('checkBtn').onclick = () => checkPhraseWrite(phrase);
+    } else if (phraseQuizMode === 'translation') {
+        // 例句翻译 - 给出塔加禄语，写中文翻译
+        document.getElementById('quizQuestion').textContent = phrase.tagalog;
+        document.getElementById('quizHint').textContent = '请写出这句话的中文翻译';
+        document.getElementById('typeInput').classList.remove('hidden');
+        document.getElementById('typeInput').value = '';
+        document.getElementById('typeInput').focus();
+        document.getElementById('checkBtn').classList.remove('hidden');
+        document.getElementById('checkBtn').onclick = () => checkPhraseTranslation(phrase);
+    }
+}
+
+function selectPhraseAnswer(btn, isCorrect, phrase) {
+    const options = document.querySelectorAll('.quiz-option');
+    options.forEach(opt => opt.style.pointerEvents = 'none');
+    
+    if (isCorrect) {
+        btn.classList.add('correct');
+        phraseCorrectCount++;
+        addToLearned(phrase);
+        addHistory(phrase.tagalog, '正确', true);
+    } else {
+        btn.classList.add('wrong');
+        options.forEach(opt => {
+            if (opt.textContent === phrase.chinese) {
+                opt.classList.add('correct');
+            }
+        });
+        addHistory(phrase.tagalog, '错误', false);
+        addToWrongAnswers(phrase);
+    }
+    
+    setTimeout(async () => {
+        phraseIndex++;
+        await showPhraseQuestion(phraseIndex);
+    }, 1500);
+}
+
+function checkPhraseCloze(phrase, blankWord) {
+    const input = document.getElementById('typeInput').value.trim().toLowerCase();
+    const isCorrect = input === blankWord.toLowerCase();
+    
+    if (isCorrect) {
+        phraseCorrectCount++;
+        addToLearned(phrase);
+        addHistory(phrase.tagalog, '正确', true);
+        document.getElementById('typeInput').classList.add('correct');
+    } else {
+        addHistory(phrase.tagalog, '错误', false);
+        addToWrongAnswers(phrase);
+        document.getElementById('typeInput').classList.add('wrong');
+        document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${blankWord}</strong><br>完整句子：${phrase.tagalog}<br>中文：${phrase.chinese}`;
+    }
+    
+    setTimeout(async () => {
+        phraseIndex++;
+        document.getElementById('typeInput').classList.remove('correct', 'wrong');
+        await showPhraseQuestion(phraseIndex);
+    }, 2000);
+}
+
+function checkPhraseWrite(phrase) {
+    const input = document.getElementById('typeInput').value.trim().toLowerCase().replace(/[.,!?]/g, '');
+    const correct = phrase.tagalog.toLowerCase().replace(/[.,!?]/g, '');
+    const isCorrect = input === correct;
+    
+    document.getElementById('typeInput').disabled = true;
+    document.getElementById('checkBtn').disabled = true;
+    
+    if (isCorrect) {
+        phraseCorrectCount++;
+        addToLearned(phrase);
+        addHistory(phrase.tagalog, '正确', true);
+        document.getElementById('typeInput').classList.add('correct');
+        document.getElementById('quizHint').textContent = '太棒了！回答正确！';
+    } else {
+        addHistory(phrase.tagalog, '错误', false);
+        addToWrongAnswers(phrase);
+        document.getElementById('typeInput').classList.add('wrong');
+        document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${phrase.tagalog}</strong><br>中文：${phrase.chinese}`;
+    }
+    
+    setTimeout(() => {
+        phraseIndex++;
+        document.getElementById('typeInput').classList.remove('correct', 'wrong');
+        showPhraseQuestion(phraseIndex);
+    }, 3000);
+}
+
+function checkPhraseTranslation(phrase) {
+    const input = document.getElementById('typeInput').value.trim();
+    document.getElementById('typeInput').disabled = true;
+    document.getElementById('checkBtn').disabled = true;
+    
+    document.getElementById('quizHint').innerHTML = `正确答案是：<strong>${phrase.chinese}</strong>`;
+    
+    setTimeout(() => {
+        phraseIndex++;
+        showPhraseQuestion(phraseIndex);
+    }, 3000);
+}
+
+function showPhraseQuizResult() {
+    document.getElementById('quizContent').classList.add('hidden');
+    document.getElementById('quizResult').classList.remove('hidden');
+    
+    const percentage = Math.round((phraseCorrectCount / phraseWords.length) * 100);
+    document.getElementById('resultStats').textContent = `正确率 ${percentage}% (${phraseCorrectCount}/${phraseWords.length})`;
+    
+    const xp = phraseCorrectCount * 4;
+    document.getElementById('resultXP').textContent = '+' + xp + ' XP';
+    
+    if (percentage >= 80) {
+        document.getElementById('resultIcon').textContent = '🎉';
+        document.getElementById('resultTitle').textContent = '太棒了!';
+    } else if (percentage >= 60) {
+        document.getElementById('resultIcon').textContent = '👍';
+        document.getElementById('resultTitle').textContent = '还不错!';
+    } else {
+        document.getElementById('resultIcon').textContent = '💪';
+        document.getElementById('resultTitle').textContent = '继续加油!';
+    }
+    
+    const userData = getUserData();
+    userData.totalXP += xp;
+    userData.todayXP += xp;
+    userData.level = Math.floor(userData.totalXP / 100) + 1;
+    
+    const today = new Date().toDateString();
+    if (userData.lastStudyDate !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (userData.lastStudyDate === yesterday.toDateString()) {
+            userData.streak++;
+        } else {
+            userData.streak = 1;
+        }
+        userData.lastStudyDate = today;
+        userData.todayXP = xp;
+    }
+    
+    saveUserData(userData);
+}
+
+// 更新getCategoryName以支持phrase
+function updateCategoryNames() {
+    const originalGetCategoryName = getCategoryName;
+    window.getCategoryName = function(cat) {
+        if (cat === 'phrase') return '日常用语练习';
+        return originalGetCategoryName(cat);
+    };
+}
+
+function speakTagalog(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        
+        const voices = window.speechSynthesis.getVoices();
+        let tagalogVoice = null;
+        
+        for (let voice of voices) {
+            if (voice.lang.startsWith('tl') || voice.lang.startsWith('fil')) {
+                tagalogVoice = voice;
+                break;
+            }
+        }
+        
+        if (!tagalogVoice) {
+            console.warn('Tagalog voice not available, skipping speech');
+            return;
+        }
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'tl-PH';
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        utterance.voice = tagalogVoice;
+        
+        utterance.onerror = function(event) {
+            console.warn('Speech synthesis error:', event.error);
+        };
+        
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function updateQuizWords() {
+    const originalGetQuizWords = getQuizWords;
+    window.getQuizWords = async function() {
+        const vocab = await getAllVocab();
+        let words = [];
+        
+        if (currentCategory === 'mixed' || currentCategory === 'learn') {
+            Object.keys(vocab).forEach(cat => {
+                words = words.concat(vocab[cat]);
+            });
+        } else if (currentCategory === 'spelling') {
+            Object.keys(vocab).forEach(cat => {
+                if (cat !== 'phrase') {
+                    words = words.concat(vocab[cat]);
+                }
+            });
+        } else if (currentCategory === 'cloze' || currentCategory === 'translation' || currentCategory === 'write') {
+            Object.keys(vocab).forEach(cat => {
+                vocab[cat].forEach(word => {
+                    if (word.example && word.example !== '（无例句）' && word.example.trim() !== '') {
+                        words.push(word);
+                    }
+                });
+            });
+            
+            if (words.length === 0) {
+                Object.keys(vocab).forEach(cat => {
+                    words = words.concat(vocab[cat]);
+                });
+            }
+        } else if (currentCategory === 'phrase' || currentCategory === 'greetings') {
+            words = vocab['phrase'] || [];
+        } else if (vocab[currentCategory]) {
+            words = vocab[currentCategory];
+        } else {
+            Object.keys(vocab).forEach(cat => {
+                words = words.concat(vocab[cat]);
+            });
+        }
+        
+        return shuffleArray(words).slice(0, 10);
+    };
+}
+
+// 初始化
+updateCategoryNames();
+updateQuizWords();
+
+    </script>
+</body>
+</html>
