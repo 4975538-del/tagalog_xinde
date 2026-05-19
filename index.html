@@ -2655,88 +2655,73 @@ function updateCategoryNames() {
     };
 }
 
-// ========== 浏览器原生 TTS（Tagalog） ==========
-let isSpeaking = false;
+// ========== ElevenLabs TTS 功能 ==========
+let currentAudio = null;
 
-function speakTagalog(text) {
+async function speakTagalog(text) {
     if (!text || text.trim() === '') return;
     
-    if (isSpeaking) {
-        window.speechSynthesis.cancel();
-    }
-    
-    if (!('speechSynthesis' in window)) {
-        alert('您的浏览器不支持语音合成功能');
-        return;
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
     }
     
     const speakBtns = document.querySelectorAll('.speak-btn');
     speakBtns.forEach(btn => {
         btn.textContent = '⏳';
-        btn.style.opacity = '0.5';
     });
     
-    isSpeaking = true;
+    try {
+        const response = await fetch('/api/tts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: text })
+        });
+        
+        if (!response.ok) {
+            throw new Error('TTS API error: ' + response.status);
+        }
+        
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        
+        currentAudio = new Audio(audioUrl);
+        currentAudio.onended = () => {
+            URL.revokeObjectURL(audioUrl);
+            currentAudio = null;
+        };
+        
+        await currentAudio.play();
+        
+    } catch (err) {
+        console.error('TTS error:', err);
+        fallbackSpeak(text);
+    } finally {
+        speakBtns.forEach(btn => {
+            btn.textContent = '🔊';
+        });
+    }
+}
+
+function fallbackSpeak(text) {
+    if (!('speechSynthesis' in window)) return;
     
-    const voices = window.speechSynthesis.getVoices();
-    let tagalogVoice = voices.find(v => 
-        v.lang.startsWith('tl') || 
-        v.lang.startsWith('fil') || 
-        v.name.toLowerCase().includes('filipino') ||
-        v.name.toLowerCase().includes('tagalog')
-    );
-    
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'tl-PH';
-    utterance.rate = 0.8;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-    
-    if (tagalogVoice) {
-        utterance.voice = tagalogVoice;
-    }
-    
-    utterance.onend = function() {
-        isSpeaking = false;
-        speakBtns.forEach(btn => {
-            btn.textContent = '🔊';
-            btn.style.opacity = '1';
-        });
-    };
-    
-    utterance.onerror = function(event) {
-        isSpeaking = false;
-        speakBtns.forEach(btn => {
-            btn.textContent = '🔊';
-            btn.style.opacity = '1';
-        });
-        
-        console.error('语音合成错误:', event.error);
-        
-        if (event.error === 'not-allowed' || event.error === 'interrupted') {
-            alert('语音合成被阻止，请检查浏览器权限设置');
-        } else if (!tagalogVoice) {
-            alert('您的设备没有Tagalog语音包，请安装Filipino语言包');
-        }
-    };
-    
+    utterance.rate = 0.85;
     window.speechSynthesis.speak(utterance);
 }
 
-// 初始化时加载语音列表
-window.speechSynthesis.onvoiceschanged = function() {
-    console.log('语音列表已加载');
-};
-
-// 停止播放
 function stopAudio() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
     window.speechSynthesis.cancel();
-    isSpeaking = false;
-    const speakBtns = document.querySelectorAll('.speak-btn');
-    speakBtns.forEach(btn => {
-        btn.textContent = '🔊';
-        btn.style.opacity = '1';
-    });
 }
 
 function updateQuizWords() {
