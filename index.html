@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -253,6 +253,9 @@
         .favorite-btn:hover { transform: scale(1.2); }
         .favorite-btn.active { color: var(--warning); }
         .favorite-btn.inactive { color: #CCC; }
+        .speak-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 4px 8px; transition: transform 0.2s; }
+        .speak-btn:hover { transform: scale(1.2); }
+        .speak-btn:active { transform: scale(0.9); }
         
         /* 单词学习功能样式 */
         .learn-word-card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); text-align: center; }
@@ -1311,7 +1314,12 @@ async function generateQuiz() {
                         'choice';
         
         if (quizType === 'choice') {
-            document.getElementById('quizQuestion').textContent = word.tagalog;
+            document.getElementById('quizQuestion').innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <span>${word.tagalog}</span>
+                    <button class="speak-btn" onclick="speakTagalog('${word.tagalog}')" title="播放发音" style="font-size: 24px; padding: 8px;">🔊</button>
+                </div>
+            `;
             document.getElementById('quizHint').textContent = '请选择正确的中文翻译';
             document.getElementById('quizOptions').innerHTML = '';
             document.getElementById('typeInput').classList.add('hidden');
@@ -1789,7 +1797,10 @@ function showLearnStage() {
             <div class="learn-word-card">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div class="learn-word">${word.tagalog}</div>
-                    <button class="favorite-btn ${isFav ? 'active' : 'inactive'}" onclick="toggleLearnFavorite(this)">${isFav ? '♥' : '♡'}</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="speak-btn" onclick="speakTagalog('${word.tagalog}')" title="播放发音">🔊</button>
+                        <button class="favorite-btn ${isFav ? 'active' : 'inactive'}" onclick="toggleLearnFavorite(this)">${isFav ? '♥' : '♡'}</button>
+                    </div>
                 </div>
                 <div class="learn-pos">${getPosName(word.pos)}</div>
                 <div class="learn-meaning">${word.chinese}</div>
@@ -2644,37 +2655,88 @@ function updateCategoryNames() {
     };
 }
 
+// ========== 浏览器原生 TTS（Tagalog） ==========
+let isSpeaking = false;
+
 function speakTagalog(text) {
-    if ('speechSynthesis' in window) {
+    if (!text || text.trim() === '') return;
+    
+    if (isSpeaking) {
         window.speechSynthesis.cancel();
-        
-        const voices = window.speechSynthesis.getVoices();
-        let tagalogVoice = null;
-        
-        for (let voice of voices) {
-            if (voice.lang.startsWith('tl') || voice.lang.startsWith('fil')) {
-                tagalogVoice = voice;
-                break;
-            }
-        }
-        
-        if (!tagalogVoice) {
-            console.warn('Tagalog voice not available, skipping speech');
-            return;
-        }
-        
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'tl-PH';
-        utterance.rate = 0.8;
-        utterance.pitch = 1;
-        utterance.voice = tagalogVoice;
-        
-        utterance.onerror = function(event) {
-            console.warn('Speech synthesis error:', event.error);
-        };
-        
-        window.speechSynthesis.speak(utterance);
     }
+    
+    if (!('speechSynthesis' in window)) {
+        alert('您的浏览器不支持语音合成功能');
+        return;
+    }
+    
+    const speakBtns = document.querySelectorAll('.speak-btn');
+    speakBtns.forEach(btn => {
+        btn.textContent = '⏳';
+        btn.style.opacity = '0.5';
+    });
+    
+    isSpeaking = true;
+    
+    const voices = window.speechSynthesis.getVoices();
+    let tagalogVoice = voices.find(v => 
+        v.lang.startsWith('tl') || 
+        v.lang.startsWith('fil') || 
+        v.name.toLowerCase().includes('filipino') ||
+        v.name.toLowerCase().includes('tagalog')
+    );
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'tl-PH';
+    utterance.rate = 0.8;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    
+    if (tagalogVoice) {
+        utterance.voice = tagalogVoice;
+    }
+    
+    utterance.onend = function() {
+        isSpeaking = false;
+        speakBtns.forEach(btn => {
+            btn.textContent = '🔊';
+            btn.style.opacity = '1';
+        });
+    };
+    
+    utterance.onerror = function(event) {
+        isSpeaking = false;
+        speakBtns.forEach(btn => {
+            btn.textContent = '🔊';
+            btn.style.opacity = '1';
+        });
+        
+        console.error('语音合成错误:', event.error);
+        
+        if (event.error === 'not-allowed' || event.error === 'interrupted') {
+            alert('语音合成被阻止，请检查浏览器权限设置');
+        } else if (!tagalogVoice) {
+            alert('您的设备没有Tagalog语音包，请安装Filipino语言包');
+        }
+    };
+    
+    window.speechSynthesis.speak(utterance);
+}
+
+// 初始化时加载语音列表
+window.speechSynthesis.onvoiceschanged = function() {
+    console.log('语音列表已加载');
+};
+
+// 停止播放
+function stopAudio() {
+    window.speechSynthesis.cancel();
+    isSpeaking = false;
+    const speakBtns = document.querySelectorAll('.speak-btn');
+    speakBtns.forEach(btn => {
+        btn.textContent = '🔊';
+        btn.style.opacity = '1';
+    });
 }
 
 function updateQuizWords() {

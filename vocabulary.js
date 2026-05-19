@@ -3199,7 +3199,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "mall",
+            "tagalog": "sentro ng kalakalan",
             "chinese": "商场",
             "pos": "noun",
             "scenario": "daily",
@@ -3979,7 +3979,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "dried fish",
+            "tagalog": "tuyong isda",
             "chinese": "咸鱼",
             "pos": "noun",
             "scenario": "food",
@@ -4772,7 +4772,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "starfish",
+            "tagalog": "bituing-dagat",
             "chinese": "海星",
             "pos": "noun",
             "scenario": "animal",
@@ -10284,7 +10284,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "temperature",
+            "tagalog": "temperatura",
             "chinese": "温度",
             "pos": "noun",
             "scenario": "weather",
@@ -10336,7 +10336,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "wind speed",
+            "tagalog": "bilis ng hangin",
             "chinese": "风速",
             "pos": "noun",
             "scenario": "weather",
@@ -10414,7 +10414,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "rainbow",
+            "tagalog": "bahaghari",
             "chinese": "彩虹",
             "pos": "noun",
             "scenario": "weather",
@@ -10492,7 +10492,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "tropical storm",
+            "tagalog": "tropikal na bagyo",
             "chinese": "热带风暴",
             "pos": "noun",
             "scenario": "weather",
@@ -10648,7 +10648,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "drinking",
+            "tagalog": "pag-inom",
             "chinese": "喝",
             "pos": "noun",
             "scenario": "activities",
@@ -11376,7 +11376,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "park",
+            "tagalog": "parke",
             "chinese": "公园",
             "pos": "noun",
             "scenario": "places",
@@ -11636,7 +11636,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "factory",
+            "tagalog": "pabrika",
             "chinese": "工厂",
             "pos": "noun",
             "scenario": "places",
@@ -11675,7 +11675,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "airport",
+            "tagalog": "paliparan",
             "chinese": "机场",
             "pos": "noun",
             "scenario": "places",
@@ -11857,7 +11857,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "power bank",
+            "tagalog": "power bangko",
             "chinese": "充电宝",
             "pos": "noun",
             "scenario": "technology",
@@ -12286,7 +12286,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "flash drive",
+            "tagalog": "USB drive",
             "chinese": "U盘",
             "pos": "noun",
             "scenario": "technology",
@@ -13508,7 +13508,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "sunglasses",
+            "tagalog": "salamin na pang-araw",
             "chinese": "太阳镜",
             "pos": "noun",
             "scenario": "clothes",
@@ -14912,7 +14912,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "rainforest",
+            "tagalog": "gubat",
             "chinese": "雨林",
             "pos": "noun",
             "scenario": "nature",
@@ -15003,7 +15003,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "lawyer",
+            "tagalog": "abogado",
             "chinese": "律师",
             "pos": "noun",
             "scenario": "occupations",
@@ -15055,7 +15055,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "chef",
+            "tagalog": "shef",
             "chinese": "厨师",
             "pos": "noun",
             "scenario": "occupations",
@@ -15081,7 +15081,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "firefighter",
+            "tagalog": "bumbero",
             "chinese": "消防员",
             "pos": "noun",
             "scenario": "occupations",
@@ -15107,7 +15107,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "pilot",
+            "tagalog": "piloto",
             "chinese": "飞行员",
             "pos": "noun",
             "scenario": "occupations",
@@ -15120,7 +15120,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "driver",
+            "tagalog": "drayber",
             "chinese": "司机",
             "pos": "noun",
             "scenario": "occupations",
@@ -17642,7 +17642,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "malls",
+            "tagalog": "mga sentro ng kalakalan",
             "chinese": "商场",
             "pos": "noun",
             "scenario": "shopping",
@@ -17798,7 +17798,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "restaurant",
+            "tagalog": "restawran",
             "chinese": "餐厅",
             "pos": "noun",
             "scenario": "shopping",
@@ -18383,7 +18383,7 @@ const VOCABULARY = {
             ]
         },
         {
-            "tagalog": "hospital",
+            "tagalog": "ospital",
             "chinese": "医院",
             "pos": "noun",
             "scenario": "health",
